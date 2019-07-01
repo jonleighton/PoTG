@@ -25,10 +25,8 @@
 heronarts.lx.studio.LXStudio lx;
 
 void setup() {
-  // Processing setup, constructs the window and the LX instance
-  size(800, 720, P3D);
+  fullScreen(P3D);
   lx = new heronarts.lx.studio.LXStudio(this, buildModel(), MULTITHREADED);
-  lx.ui.setResizable(RESIZABLE);
 }
 
 void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
@@ -45,7 +43,6 @@ void draw() {
 
 // Configuration flags
 final static boolean MULTITHREADED = true;
-final static boolean RESIZABLE = true;
 
 // Helpful global constants
 final static float INCHES = 1;
