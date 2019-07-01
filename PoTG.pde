@@ -45,11 +45,5 @@ void draw() {
 final static boolean MULTITHREADED = true;
 
 // Helpful global constants
-final static float INCHES = 1;
-final static float IN = INCHES;
-final static float FEET = 12 * INCHES;
-final static float FT = FEET;
-final static float CM = IN / 2.54;
-final static float MM = CM * .1;
-final static float M = CM * 100;
-final static float METER = M;
+final static int CENTIMETER = 1;
+final static int METER = 100 * CENTIMETER;
