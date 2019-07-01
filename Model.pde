@@ -5,12 +5,9 @@ LXModel buildModel() {
 public static class PoTGModel extends LXModel {
   public final static int PILLARS = 10;
   public final static int MODEL_RADIUS = 3 * METER;
-  public final static int PILLAR_HEIGHT = (int) (1.5 * METER);
   public final static int LEDS_PER_METER = 60;
   public final static float LED_SPACING = METER / LEDS_PER_METER;
   public final static float HALF_LED_SPACING = LED_SPACING / 2;
-  public final static int PILLAR_FACES = 3;
-  public final static int PILLAR_RADIUS = 6 * CENTIMETER;
 
   public PoTGModel() {
     super(buildFixtures());
@@ -58,11 +55,15 @@ public static class PoTGModel extends LXModel {
   }
 
   public static class Pillar extends LXAbstractFixture {
-    Pillar(int x, int z) {
-      Point2D[] points = circlePoints(PILLAR_RADIUS, PILLAR_FACES);
+    public final static int HEIGHT = (int) (1.5 * METER);
+    public final static int FACES = 3;
+    public final static int RADIUS = 6 * CENTIMETER;
 
-      for (int face = 0; face < PILLAR_FACES; face++) {
-        addPoints(new Strip(PILLAR_HEIGHT, x + points[face].x, z + points[face].y));
+    Pillar(int x, int z) {
+      Point2D[] points = circlePoints(RADIUS, FACES);
+
+      for (int face = 0; face < FACES; face++) {
+        addPoints(new Strip(HEIGHT, x + points[face].x, z + points[face].y));
       }
     }
   }
