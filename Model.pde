@@ -55,7 +55,7 @@ public static class PoTGModel extends LXModel {
   }
 
   public static class Pillar extends LXAbstractFixture {
-    public final static int HEIGHT = (int) (1.5 * METER);
+    public final static int HEIGHT = (int) (1.2 * METER);
     public final static int FACES = 3;
     public final static int RADIUS = 6 * CENTIMETER;
 
@@ -79,7 +79,7 @@ public static class PoTGModel extends LXModel {
   }
 
   public static class Altar extends LXAbstractFixture {
-    public static int HEIGHT = 50 * CENTIMETER;
+    public static int HEIGHT = 60 * CENTIMETER;
     public static int RADIUS = 1 * METER;
     public static int STRIPS = 20;
 

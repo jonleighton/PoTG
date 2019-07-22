@@ -25,7 +25,7 @@
 heronarts.lx.studio.LXStudio lx;
 
 void setup() {
-  fullScreen(P3D);
+  size(1000, 1000, P3D);
   lx = new heronarts.lx.studio.LXStudio(this, buildModel(), MULTITHREADED);
 }
 
