@@ -16,10 +16,16 @@ public static class PoTGModel extends LXModel {
   public static LXFixture[] buildFixtures() {
     LXFixture[] fixtures = new LXFixture[PILLARS + 1];
 
-    Point2D[] points = circlePoints(MODEL_RADIUS, PILLARS);
+    CirclePoint[] points = circlePoints(MODEL_RADIUS, PILLARS);
 
     for (int pillar = 0; pillar < PILLARS; pillar++) {
-      fixtures[pillar] = new Pillar(points[pillar].x, points[pillar].y);
+      CirclePoint point = points[pillar];
+
+      fixtures[pillar] = new Pillar(
+          point.x(),
+          point.y(),
+          PI + point.angle() // add PI to get it facing inwards to the altar
+      );
     }
 
     fixtures[PILLARS] = new Altar();
@@ -27,31 +33,48 @@ public static class PoTGModel extends LXModel {
     return fixtures;
   }
 
-  public static class Point2D {
-    int x;
-    int y;
+  // https://stackoverflow.com/questions/839899/how-do-i-calculate-a-point-on-a-circle-s-circumference#839931
+  public static class CirclePoint {
+    private int radius;
+    private float angle;
 
-    Point2D(int x, int y) {
-      this.x = x;
-      this.y = y;
+    CirclePoint(int radius, float angle) {
+      this.radius = radius;
+      this.angle = angle;
+    }
+
+    public int radius() {
+      return this.radius;
+    }
+
+    public float angle() {
+      return this.angle;
+    }
+
+    public int x() {
+      return (int) (this.radius * cos(this.angle));
+    }
+
+    public int y() {
+      return (int) (this.radius * sin(this.angle));
     }
   }
 
-  public static Point2D[] circlePoints(int radius, int n) {
-    Point2D[] points = new Point2D[n];
+  public static CirclePoint[] circlePoints(int radius, int n, float rotation) {
+    CirclePoint[] points = new CirclePoint[n];
 
     // https://en.wikipedia.org/wiki/Internal_and_external_angles
     float externalAngle = TWO_PI / n;
 
     for (int i = 0; i < n; i++) {
-      // https://stackoverflow.com/questions/839899/how-do-i-calculate-a-point-on-a-circle-s-circumference#839931
-      points[i] = new Point2D(
-        (int) (radius * cos(externalAngle * i)),
-        (int) (radius * sin(externalAngle * i))
-      );
+      points[i] = new CirclePoint(radius, rotation + externalAngle * i);
     }
 
     return points;
+  }
+
+  public static CirclePoint[] circlePoints(int radius, int n) {
+    return circlePoints(radius, n, 0);
   }
 
   public static class Pillar extends LXAbstractFixture {
@@ -59,12 +82,16 @@ public static class PoTGModel extends LXModel {
     public final static int FACES = 3;
     public final static int RADIUS = 6 * CENTIMETER;
 
-    Pillar(int x, int z) {
-      Point2D[] points = circlePoints(RADIUS, FACES);
+    Pillar(int x, int z, float rotation) {
+      CirclePoint[] points = circlePoints(RADIUS, FACES, rotation);
 
       for (int face = 0; face < FACES; face++) {
-        addPoints(new Strip(HEIGHT, x + points[face].x, z + points[face].y));
+        addPoints(new Strip(HEIGHT, x + points[face].x(), z + points[face].y()));
       }
+    }
+
+    Pillar(int x, int z) {
+      this(x, z, 0.0);
     }
   }
 
@@ -84,10 +111,10 @@ public static class PoTGModel extends LXModel {
     public static int STRIPS = 20;
 
     Altar() {
-      Point2D[] points = circlePoints(RADIUS, STRIPS);
+      CirclePoint[] points = circlePoints(RADIUS, STRIPS);
 
       for (int strip = 0; strip < STRIPS; strip++) {
-        addPoints(new Strip(HEIGHT, points[strip].x, points[strip].y));
+        addPoints(new Strip(HEIGHT, points[strip].x(), points[strip].y()));
       }
     }
   }
