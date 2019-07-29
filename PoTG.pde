@@ -21,16 +21,30 @@
 // 
 // ---------------------------------------------------------------------------
 
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
 // Reference to top-level LX instance
 heronarts.lx.studio.LXStudio lx;
 
 void setup() {
   size(1000, 1000, P3D);
-  lx = new heronarts.lx.studio.LXStudio(this, buildModel(), MULTITHREADED);
+  // fullScreen(P3D);
+
+  ArrayList<LXPoint> points = new ArrayList<LXPoint>();
+  points.add(new LXPoint(0, 0, 0));
+  points.add(new LXPoint(10, 0, 0));
+
+  LXModel model = new LXModel(points);
+
+  lx = new heronarts.lx.studio.LXStudio(this, model, MULTITHREADED);
 }
 
-void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
-  // Add custom components or output drivers here
+void initialize(
+  final heronarts.lx.studio.LXStudio lx,
+  heronarts.lx.studio.LXStudio.UI ui
+) throws SocketException, UnknownHostException {
+  lx.addOutput(new Output(lx).setAddress(CONTROLLER_IP));
 }
 
 void onUIReady(heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
@@ -47,3 +61,5 @@ final static boolean MULTITHREADED = true;
 // Helpful global constants
 final static int CENTIMETER = 1;
 final static int METER = 100 * CENTIMETER;
+
+final static String CONTROLLER_IP = "192.168.1.100";
