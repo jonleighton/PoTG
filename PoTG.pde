@@ -20,7 +20,11 @@ void setup() {
 }
 
 void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
-  // Add custom components or output drivers here
+  try {
+    lx.addOutput(new Output(lx));
+  } catch (Exception x) {
+    System.err.println(x.getLocalizedMessage());
+  }
 }
 
 void onUIReady(heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
