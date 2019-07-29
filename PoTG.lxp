@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1561971620084,
+  "timestamp": 1564374738887,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -15,7 +15,7 @@
       "crossfader": 0.5,
       "crossfaderBlendMode": 0,
       "speed": 1.0,
-      "focusedChannel": 0,
+      "focusedChannel": 1,
       "cueA": false,
       "cueB": false,
       "multithreaded": true,
@@ -78,6 +78,51 @@
               "triggers": []
             },
             "autoCycleEnabled": false
+          }
+        ]
+      },
+      {
+        "id": 60,
+        "class": "heronarts.lx.LXChannel",
+        "modulationColor": -65343,
+        "parameters": {
+          "label": "Channel-2",
+          "arm": false,
+          "selected": true,
+          "enabled": false,
+          "cue": false,
+          "fader": 1.0,
+          "crossfadeGroup": 0,
+          "blendMode": 0,
+          "midiMonitor": false,
+          "midiChannel": 16,
+          "autoCycleEnabled": false,
+          "autoCycleMode": 0,
+          "autoCycleTimeSecs": 60.0,
+          "transitionEnabled": false,
+          "transitionTimeSecs": 5.0,
+          "transitionBlendMode": 0
+        },
+        "effects": [],
+        "clips": [],
+        "patternIndex": 0,
+        "patterns": [
+          {
+            "id": 72,
+            "class": "heronarts.p3lx.pattern.SolidPattern",
+            "modulationColor": -7208705,
+            "parameters": {
+              "label": "Solid",
+              "color/brightness": 100.0,
+              "color/saturation": 100.0,
+              "color/hue": 0.0
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
+              "triggers": []
+            },
+            "autoCycleEnabled": true
           }
         ]
       }
@@ -200,7 +245,7 @@
         "label": "OSC",
         "receiveHost": "0.0.0.0",
         "receivePort": 3030,
-        "receiveActive": false,
+        "receiveActive": true,
         "transmitHost": "localhost",
         "transmitPort": 3131,
         "transmitActive": false
@@ -231,9 +276,9 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 473.3374505729594,
-          "theta": 1.1849999999999998,
-          "phi": -0.014999999999999972,
+          "radius": 628.0734728070938,
+          "theta": 1.9979999999999996,
+          "phi": 0.249,
           "x": 1.5,
           "y": 75.0,
           "z": 0.0
@@ -241,9 +286,9 @@
         "cue": [
           {
             "active": false,
-            "radius": 473.3374505729594,
-            "theta": 1.1849999999999998,
-            "phi": -0.014999999999999972,
+            "radius": 628.0734728070938,
+            "theta": 1.9979999999999996,
+            "phi": 0.249,
             "x": 1.5,
             "y": 75.0,
             "z": 0.0
