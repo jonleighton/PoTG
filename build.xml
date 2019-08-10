@@ -1,0 +1,19 @@
+<project name="Headless" default="compile" basedir=".">
+	<target name="compile">
+		<delete dir="./output" />
+		<mkdir dir="./output" />
+		<javac destdir="./output" includeantruntime="false">
+			<src path="./" />
+			<classpath>
+				<pathelement location="./code/P3LX.jar" />
+			</classpath>
+			<compilerarg value="-Xlint"/>
+		</javac>
+		<jar jarfile="./output/Headless.jar" basedir="./output">
+			<zipgroupfileset dir="./code" includes="P3LX.jar" />
+			<manifest>
+				<attribute name="Main-Class" value="Headless"/>
+			</manifest>
+		</jar>
+	</target>
+</project>

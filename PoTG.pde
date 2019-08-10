@@ -11,22 +11,12 @@
  * PURPOSE, WITH RESPECT TO THE SOFTWARE.
  */
 
-// ---------------------------------------------------------------------------
-//
-// Welcome to LX Studio! Getting started is easy...
-// 
-// (1) Quickly scan this file
-// (2) Look at "Model" to define your model
-// (3) Move on to "Patterns" to write your animations
-// 
-// ---------------------------------------------------------------------------
-
 // Reference to top-level LX instance
 heronarts.lx.studio.LXStudio lx;
 
 void setup() {
   size(1000, 1000, P3D);
-  lx = new heronarts.lx.studio.LXStudio(this, buildModel(), MULTITHREADED);
+  lx = new heronarts.lx.studio.LXStudio(this, new Model(), MULTITHREADED);
 }
 
 void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
@@ -43,7 +33,3 @@ void draw() {
 
 // Configuration flags
 final static boolean MULTITHREADED = true;
-
-// Helpful global constants
-final static int CENTIMETER = 1;
-final static int METER = 100 * CENTIMETER;

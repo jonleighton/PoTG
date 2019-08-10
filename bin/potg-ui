@@ -1,0 +1,2 @@
+#!/bin/bash
+processing-java --sketch="$(dirname "$0")/../../PoTG" --run

@@ -1,15 +1,18 @@
-LXModel buildModel() {
-  return new PoTGModel();
-}
+import heronarts.lx.model.LXModel;
+import heronarts.lx.model.LXFixture;
+import heronarts.lx.model.LXAbstractFixture;
+import heronarts.lx.model.LXPoint;
 
-public static class PoTGModel extends LXModel {
+public class Model extends LXModel {
+  public final static int CENTIMETER = 1;
+  public final static int METER = 100 * CENTIMETER;
   public final static int PILLARS = 10;
   public final static int MODEL_RADIUS = 3 * METER;
   public final static int LEDS_PER_METER = 60;
-  public final static float LED_SPACING = METER / LEDS_PER_METER;
-  public final static float HALF_LED_SPACING = LED_SPACING / 2;
+  public final static double LED_SPACING = METER / LEDS_PER_METER;
+  public final static double HALF_LED_SPACING = LED_SPACING / 2;
 
-  public PoTGModel() {
+  public Model() {
     super(buildFixtures());
   }
 
@@ -24,7 +27,7 @@ public static class PoTGModel extends LXModel {
       fixtures[pillar] = new Pillar(
           point.x(),
           point.y(),
-          PI + point.angle() // add PI to get it facing inwards to the altar
+          Math.PI + point.angle() // add PI to get it facing inwards to the altar
       );
     }
 
@@ -36,9 +39,9 @@ public static class PoTGModel extends LXModel {
   // https://stackoverflow.com/questions/839899/how-do-i-calculate-a-point-on-a-circle-s-circumference#839931
   public static class CirclePoint {
     private int radius;
-    private float angle;
+    private double angle;
 
-    CirclePoint(int radius, float angle) {
+    CirclePoint(int radius, double angle) {
       this.radius = radius;
       this.angle = angle;
     }
@@ -47,24 +50,24 @@ public static class PoTGModel extends LXModel {
       return this.radius;
     }
 
-    public float angle() {
+    public double angle() {
       return this.angle;
     }
 
     public int x() {
-      return (int) (this.radius * cos(this.angle));
+      return (int) (this.radius * Math.cos(this.angle));
     }
 
     public int y() {
-      return (int) (this.radius * sin(this.angle));
+      return (int) (this.radius * Math.sin(this.angle));
     }
   }
 
-  public static CirclePoint[] circlePoints(int radius, int n, float rotation) {
+  public static CirclePoint[] circlePoints(int radius, int n, double rotation) {
     CirclePoint[] points = new CirclePoint[n];
 
     // https://en.wikipedia.org/wiki/Internal_and_external_angles
-    float externalAngle = TWO_PI / n;
+    double externalAngle = (Math.PI * 2) / n;
 
     for (int i = 0; i < n; i++) {
       points[i] = new CirclePoint(radius, rotation + externalAngle * i);
@@ -82,7 +85,7 @@ public static class PoTGModel extends LXModel {
     public final static int FACES = 3;
     public final static int RADIUS = 6 * CENTIMETER;
 
-    Pillar(int x, int z, float rotation) {
+    Pillar(int x, int z, double rotation) {
       CirclePoint[] points = circlePoints(RADIUS, FACES, rotation);
 
       for (int face = 0; face < FACES; face++) {
