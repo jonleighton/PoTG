@@ -6,9 +6,13 @@ import heronarts.lx.model.LXPoint;
 public class Model extends LXModel {
   public final static int CENTIMETER = 1;
   public final static int METER = 100 * CENTIMETER;
+
   public final static int PILLARS = 10;
   public final static int MODEL_RADIUS = 3 * METER;
-  public final static int LEDS_PER_METER = 60;
+
+  // There are actually 30 LEDs per metre, but with 1 IC controlling 3 LEDs.
+  // Our model represents ICs rather than LEDs.
+  public final static int LEDS_PER_METER = 10;
   public final static double LED_SPACING = METER / LEDS_PER_METER;
   public final static double HALF_LED_SPACING = LED_SPACING / 2;
 
@@ -81,7 +85,7 @@ public class Model extends LXModel {
   }
 
   public static class Pillar extends LXAbstractFixture {
-    public final static int HEIGHT = (int) (1.2 * METER);
+    public final static int HEIGHT = (int) (1.4 * METER);
     public final static int FACES = 3;
     public final static int RADIUS = 6 * CENTIMETER;
 
