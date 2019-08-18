@@ -19,11 +19,12 @@ class Output extends LXDatagramOutput {
   Output(LX lx) throws SocketException, UnknownHostException {
     super(lx);
 
-    int[] indices = { 0 };
-    addDatagram(new ArtNetDatagram(indices, PIXELS_PER_UNIVERSE, 0));
+    int[] indices = new int[50];
+    for (int i = 0; i < 50; i++) {
+      indices[i] = i;
+    }
 
-    int[] indices2 = { 1 };
-    addDatagram(new ArtNetDatagram(indices2, PIXELS_PER_UNIVERSE, 1));
+    addDatagram(new ArtNetDatagram(indices, PIXELS_PER_UNIVERSE, 0));
 
     this.setAddress(CONTROLLER_IP);
   }
