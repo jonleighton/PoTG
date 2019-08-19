@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1564377117469,
+  "timestamp": 1566179477670,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -39,56 +39,13 @@
     },
     "channels": [
       {
-        "id": 26,
-        "class": "heronarts.lx.LXChannel",
-        "modulationColor": -16711813,
-        "parameters": {
-          "label": "Channel-1",
-          "arm": false,
-          "selected": false,
-          "enabled": true,
-          "cue": false,
-          "fader": 1.0,
-          "crossfadeGroup": 0,
-          "blendMode": 0,
-          "midiMonitor": false,
-          "midiChannel": 16,
-          "autoCycleEnabled": false,
-          "autoCycleMode": 0,
-          "autoCycleTimeSecs": 60.0,
-          "transitionEnabled": false,
-          "transitionTimeSecs": 5.0,
-          "transitionBlendMode": 0
-        },
-        "effects": [],
-        "clips": [],
-        "patternIndex": 0,
-        "patterns": [
-          {
-            "id": 23,
-            "class": "heronarts.lx.pattern.IteratorPattern",
-            "modulationColor": -2816,
-            "parameters": {
-              "label": "Iterator",
-              "speed": 10.0
-            },
-            "modulation": {
-              "modulators": [],
-              "modulations": [],
-              "triggers": []
-            },
-            "autoCycleEnabled": false
-          }
-        ]
-      },
-      {
         "id": 60,
         "class": "heronarts.lx.LXChannel",
         "modulationColor": -65343,
         "parameters": {
-          "label": "Channel-2",
+          "label": "Pattern",
           "arm": false,
-          "selected": true,
+          "selected": false,
           "enabled": true,
           "cue": false,
           "fader": 1.0,
@@ -163,7 +120,7 @@
                     "phase": 0.13999999687075615,
                     "exp": 0.0
                   },
-                  "basis": 0.08409080455871164
+                  "basis": 0.8619929505417401
                 },
                 {
                   "id": 80,
@@ -186,7 +143,7 @@
                     "phase": 0.29999999329447746,
                     "exp": 0.019999999552965164
                   },
-                  "basis": 0.5129465919619799
+                  "basis": 0.2086204150611136
                 },
                 {
                   "id": 82,
@@ -209,7 +166,7 @@
                     "phase": 0.0,
                     "exp": 0.0
                   },
-                  "basis": 0.6442864555283064
+                  "basis": 0.5390799410828974
                 }
               ],
               "modulations": [
@@ -268,6 +225,59 @@
                   }
                 }
               ],
+              "triggers": []
+            },
+            "autoCycleEnabled": true
+          }
+        ]
+      },
+      {
+        "id": 130,
+        "class": "heronarts.lx.LXChannel",
+        "modulationColor": -7799040,
+        "parameters": {
+          "label": "Form",
+          "arm": false,
+          "selected": true,
+          "enabled": true,
+          "cue": false,
+          "fader": 1.0,
+          "crossfadeGroup": 0,
+          "blendMode": 1,
+          "midiMonitor": false,
+          "midiChannel": 16,
+          "autoCycleEnabled": false,
+          "autoCycleMode": 0,
+          "autoCycleTimeSecs": 60.0,
+          "transitionEnabled": false,
+          "transitionTimeSecs": 5.0,
+          "transitionBlendMode": 0
+        },
+        "effects": [],
+        "clips": [],
+        "patternIndex": 0,
+        "patterns": [
+          {
+            "id": 142,
+            "class": "ModelPartsPattern",
+            "modulationColor": -65513,
+            "parameters": {
+              "label": "ModelParts",
+              "pillar/1": true,
+              "pillar/2": true,
+              "pillar/3": true,
+              "pillar/4": true,
+              "pillar/5": true,
+              "pillar/6": true,
+              "pillar/7": true,
+              "pillar/8": true,
+              "pillar/9": true,
+              "pillar/10": true,
+              "altar": true
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
               "triggers": []
             },
             "autoCycleEnabled": true

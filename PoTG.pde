@@ -20,11 +20,7 @@ void setup() {
 }
 
 void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
-  try {
-    lx.addOutput(new Output(lx));
-  } catch (Exception x) {
-    System.err.println(x.getLocalizedMessage());
-  }
+  Project.setup(lx);
 }
 
 void onUIReady(heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {

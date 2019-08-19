@@ -12,7 +12,7 @@
 		<jar jarfile="./output/Headless.jar" basedir="./output">
 			<zipgroupfileset dir="./code" includes="P3LX.jar" />
 			<manifest>
-				<attribute name="Main-Class" value="Headless"/>
+				<attribute name="Main-Class" value="Project"/>
 			</manifest>
 		</jar>
 	</target>

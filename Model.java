@@ -16,28 +16,47 @@ public class Model extends LXModel {
   public final static double LED_SPACING = METER / LEDS_PER_METER;
   public final static double HALF_LED_SPACING = LED_SPACING / 2;
 
+  private final Fixture fixture;
+
   public Model() {
-    super(buildFixtures());
+    super(new Fixture());
+    this.fixture = (Fixture) this.fixtures.get(0);
   }
 
-  public static LXFixture[] buildFixtures() {
-    LXFixture[] fixtures = new LXFixture[PILLARS + 1];
+  public Altar getAltar() {
+    return this.fixture.altar;
+  }
 
-    CirclePoint[] points = circlePoints(MODEL_RADIUS, PILLARS);
+  public Pillar[] getPillars() {
+    return this.fixture.pillars;
+  }
 
-    for (int pillar = 0; pillar < PILLARS; pillar++) {
-      CirclePoint point = points[pillar];
+  public Pillar getPillar(int index) {
+    return this.fixture.pillars[index];
+  }
 
-      fixtures[pillar] = new Pillar(
+  public static class Fixture extends LXAbstractFixture {
+    public final Altar altar = new Altar();
+    public final Pillar[] pillars = new Pillar[PILLARS];
+
+    Fixture() {
+      addPoints(altar);
+
+      CirclePoint[] points = circlePoints(MODEL_RADIUS, PILLARS);
+
+      for (int pillar = 0; pillar < PILLARS; pillar++) {
+        CirclePoint point = points[pillar];
+
+        pillars[pillar] = new Pillar(
+          pillar,
           point.x(),
           point.y(),
           Math.PI + point.angle() // add PI to get it facing inwards to the altar
-      );
+        );
+
+        addPoints(pillars[pillar]);
+      }
     }
-
-    fixtures[PILLARS] = new Altar();
-
-    return fixtures;
   }
 
   // https://stackoverflow.com/questions/839899/how-do-i-calculate-a-point-on-a-circle-s-circumference#839931
@@ -89,7 +108,11 @@ public class Model extends LXModel {
     public final static int FACES = 3;
     public final static int RADIUS = 6 * CENTIMETER;
 
-    Pillar(int x, int z, double rotation) {
+    public final int index;
+
+    Pillar(int index, int x, int z, double rotation) {
+      this.index = index;
+
       CirclePoint[] points = circlePoints(RADIUS, FACES, rotation);
 
       for (int face = 0; face < FACES; face++) {
@@ -97,8 +120,16 @@ public class Model extends LXModel {
       }
     }
 
-    Pillar(int x, int z) {
-      this(x, z, 0.0);
+    Pillar(int index, int x, int z) {
+      this(index, x, z, 0.0);
+    }
+
+    int getNumber() {
+      return this.index + 1;
+    }
+
+    int getIndex() {
+      return this.index;
     }
   }
 
