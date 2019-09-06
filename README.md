@@ -4,7 +4,7 @@
 
 This will compile the code when it runs.
 
-    $ bin/potg-ui
+    $ bin/ui
 
 ## Running headless
 
@@ -14,7 +14,7 @@ You have to compile the code separately:
 
 Then run it:
 
-    $ bin/potg-headless
+    $ bin/headless
 
 ## Triggering a channel via OSC/Python
 
