@@ -1,3 +1,3 @@
 #!/bin/bash
 ROOT="$(dirname "$0")/.."
-java -jar "$ROOT/output/Headless.jar" "$ROOT/PoTG.lxp"
+java -jar "$ROOT/output/Headless.jar" "$@"

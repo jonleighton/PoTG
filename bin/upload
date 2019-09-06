@@ -15,7 +15,7 @@ cp PoTG.lxp "$OUTPUT"
 cat << EOF > "$OUTPUT/run.sh"
 #!/bin/bash
 ROOT="\$(dirname "\$0")"
-java -jar "\$ROOT/Headless.jar" "\$ROOT/PoTG.lxp"
+java -jar "\$ROOT/Headless.jar" "\$@"
 EOF
 
 chmod +x "$OUTPUT/run.sh"

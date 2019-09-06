@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1567748785488,
+  "timestamp": 1567771104526,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -15,7 +15,7 @@
       "crossfader": 0.5,
       "crossfaderBlendMode": 0,
       "speed": 1.0,
-      "focusedChannel": 1,
+      "focusedChannel": 2,
       "cueA": false,
       "cueB": false,
       "multithreaded": true,
@@ -39,7 +39,7 @@
     },
     "channels": [
       {
-        "id": 60,
+        "id": 204,
         "class": "heronarts.lx.LXChannel",
         "modulationColor": -65343,
         "parameters": {
@@ -82,7 +82,7 @@
             "autoCycleEnabled": true
           },
           {
-            "id": 74,
+            "id": 222,
             "class": "heronarts.lx.pattern.GradientPattern",
             "modulationColor": -7929601,
             "parameters": {
@@ -100,7 +100,7 @@
             "modulation": {
               "modulators": [
                 {
-                  "id": 78,
+                  "id": 224,
                   "class": "heronarts.lx.modulator.VariableLFO",
                   "modulationColor": -4194049,
                   "parameters": {
@@ -120,10 +120,10 @@
                     "phase": 0.13999999687075615,
                     "exp": 0.0
                   },
-                  "basis": 0.9339029012256185
+                  "basis": 0.20966095071296728
                 },
                 {
-                  "id": 80,
+                  "id": 225,
                   "class": "heronarts.lx.modulator.VariableLFO",
                   "modulationColor": -65318,
                   "parameters": {
@@ -143,10 +143,10 @@
                     "phase": 0.29999999329447746,
                     "exp": 0.019999999552965164
                   },
-                  "basis": 0.8341290855066885
+                  "basis": 0.9576093190672577
                 },
                 {
-                  "id": 82,
+                  "id": 226,
                   "class": "heronarts.lx.modulator.VariableLFO",
                   "modulationColor": -3342592,
                   "parameters": {
@@ -166,19 +166,19 @@
                     "phase": 0.0,
                     "exp": 0.0
                   },
-                  "basis": 0.18075697979158845
+                  "basis": 0.3076343200494387
                 }
               ],
               "modulations": [
                 {
                   "source": {
-                    "id": 78
+                    "id": 224
                   },
                   "target": {
-                    "componentId": 74,
+                    "componentId": 222,
                     "parameterPath": "spreadX"
                   },
-                  "id": 79,
+                  "id": 227,
                   "class": "heronarts.lx.parameter.LXCompoundModulation",
                   "modulationColor": -16711797,
                   "parameters": {
@@ -190,13 +190,13 @@
                 },
                 {
                   "source": {
-                    "id": 80
+                    "id": 225
                   },
                   "target": {
-                    "componentId": 74,
+                    "componentId": 222,
                     "parameterPath": "spreadY"
                   },
-                  "id": 81,
+                  "id": 228,
                   "class": "heronarts.lx.parameter.LXCompoundModulation",
                   "modulationColor": -16711699,
                   "parameters": {
@@ -208,13 +208,13 @@
                 },
                 {
                   "source": {
-                    "id": 82
+                    "id": 226
                   },
                   "target": {
-                    "componentId": 74,
+                    "componentId": 222,
                     "parameterPath": "spreadZ"
                   },
-                  "id": 83,
+                  "id": 229,
                   "class": "heronarts.lx.parameter.LXCompoundModulation",
                   "modulationColor": -65526,
                   "parameters": {
@@ -238,7 +238,7 @@
         "parameters": {
           "label": "Form",
           "arm": false,
-          "selected": true,
+          "selected": false,
           "enabled": true,
           "cue": false,
           "fader": 1.0,
@@ -258,7 +258,7 @@
         "patternIndex": 0,
         "patterns": [
           {
-            "id": 142,
+            "id": 245,
             "class": "ModelPartsPattern",
             "modulationColor": -65513,
             "parameters": {
@@ -302,7 +302,7 @@
       "parameters": {
         "label": "Master",
         "arm": false,
-        "selected": false
+        "selected": true
       },
       "effects": [],
       "clips": []

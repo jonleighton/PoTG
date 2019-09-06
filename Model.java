@@ -37,6 +37,18 @@ public class Model extends LXModel {
     return this.fixture.pillars[index];
   }
 
+  public Pillar getPillarNumber(int number) {
+    return this.getPillar(number - 1);
+  }
+
+  public Head getAltarHead(int index) {
+    return this.fixture.altar.heads[index];
+  }
+
+  public Head getAltarHeadNumber(int number) {
+    return this.getAltarHead(number - 1);
+  }
+
   public static class Fixture extends LXAbstractFixture {
     public final Altar altar = new Altar();
     public final Pillar[] pillars = new Pillar[PILLARS];
@@ -199,16 +211,21 @@ public class Model extends LXModel {
     public static int RADIUS = 60 * CENTIMETER;
     public static int HEAD_INSET = 10 * CENTIMETER;
 
+    public Head[] heads = new Head[PILLARS];
+
     Altar() {
-      for (CirclePoint point : circlePoints(RADIUS - HEAD_INSET, PILLARS)) {
-        addPoints(
-          new Head(
-            point.x(),
-            HEIGHT,
-            point.y(),
-            point.angle()
-          )
+      CirclePoint points[] = circlePoints(RADIUS - HEAD_INSET, PILLARS);
+
+      for (int i = 0; i < points.length; i++) {
+        Head head = new Head(
+          points[i].x(),
+          HEIGHT,
+          points[i].y(),
+          points[i].angle()
         );
+
+        heads[i] = head;
+        addPoints(head);
       }
     }
   }
