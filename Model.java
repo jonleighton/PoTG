@@ -10,7 +10,7 @@ public class Model extends LXModel {
   public final static int PILLARS = 10;
 
   // Altar radius + distance from altar
-  public final static int MODEL_RADIUS = 75 * CENTIMETER + 3 * METER;
+  public final static int MODEL_RADIUS = Altar.RADIUS + 3 * METER;
 
   // There are actually 30 LEDs per metre, but with 1 IC controlling 3 LEDs.
   // Our model represents ICs rather than LEDs.
@@ -53,7 +53,7 @@ public class Model extends LXModel {
           pillar,
           point.x(),
           point.y(),
-          Math.PI + point.angle() // add PI to get it facing inwards to the altar
+          point.angle()
         );
 
         addPoints(pillars[pillar]);
@@ -106,7 +106,7 @@ public class Model extends LXModel {
   }
 
   public static class Pillar extends LXAbstractFixture {
-    public final static int HEIGHT = (int) (1.4 * METER);
+    public final static int HEIGHT = (int) (1.3 * METER);
     public final static int FACES = 3;
     public final static int RADIUS = 6 * CENTIMETER;
 
@@ -146,8 +146,8 @@ public class Model extends LXModel {
   }
 
   public static class Altar extends LXAbstractFixture {
-    public static int HEIGHT = 60 * CENTIMETER;
-    public static int RADIUS = 75 * CENTIMETER;
+    public static int HEIGHT = 100 * CENTIMETER;
+    public static int RADIUS = 60 * CENTIMETER;
     public static int STRIPS = 20;
 
     Altar() {
