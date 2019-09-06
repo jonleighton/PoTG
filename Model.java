@@ -8,7 +8,9 @@ public class Model extends LXModel {
   public final static int METER = 100 * CENTIMETER;
 
   public final static int PILLARS = 10;
-  public final static int MODEL_RADIUS = 3 * METER;
+
+  // Altar radius + distance from altar
+  public final static int MODEL_RADIUS = 75 * CENTIMETER + 3 * METER;
 
   // There are actually 30 LEDs per metre, but with 1 IC controlling 3 LEDs.
   // Our model represents ICs rather than LEDs.
@@ -145,7 +147,7 @@ public class Model extends LXModel {
 
   public static class Altar extends LXAbstractFixture {
     public static int HEIGHT = 60 * CENTIMETER;
-    public static int RADIUS = 1 * METER;
+    public static int RADIUS = 75 * CENTIMETER;
     public static int STRIPS = 20;
 
     Altar() {

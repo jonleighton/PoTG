@@ -30,7 +30,6 @@ public class ModelPartsPattern extends LXPattern {
 
   public ModelPartsPattern(LX lx) {
     super(lx);
-
     this.model = (Model) lx.model;
 
     for (Model.Pillar pillar : this.model.getPillars()) {
