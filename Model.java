@@ -106,20 +106,24 @@ public class Model extends LXModel {
   }
 
   public static class Pillar extends LXAbstractFixture {
+    // The LED support is 1.35M, but our strip can only be cut every 10cm, so
+    // we'll do 1.3m of strip and mount it 5cm from the bottom of the support.
     public final static int HEIGHT = (int) (1.3 * METER);
+    public final static int HEAD_HEIGHT = HEIGHT + 5 * CENTIMETER;
     public final static int FACES = 3;
-    public final static int RADIUS = 6 * CENTIMETER;
 
-    public final int index;
+    private final int index;
+    private final PillarVertical vertical;
+    private final Head head;
 
     Pillar(int index, int x, int z, double rotation) {
       this.index = index;
 
-      CirclePoint[] points = circlePoints(RADIUS, FACES, rotation);
+      this.vertical = new PillarVertical(x, z, rotation);
+      addPoints(this.vertical);
 
-      for (int face = 0; face < FACES; face++) {
-        addPoints(new Strip(HEIGHT, x + points[face].x(), z + points[face].y()));
-      }
+      this.head = new Head(x, HEAD_HEIGHT, z, rotation);
+      addPoints(this.head);
     }
 
     Pillar(int index, int x, int z) {
@@ -133,6 +137,30 @@ public class Model extends LXModel {
     int getIndex() {
       return this.index;
     }
+
+    Head getHead() {
+      return this.head;
+    }
+
+    PillarVertical getVertical() {
+      return this.vertical;
+    }
+  }
+
+  public static class PillarVertical extends LXAbstractFixture {
+    public final static int RADIUS = 3 * CENTIMETER;
+
+    PillarVertical(int x, int z, double rotation) {
+      for (CirclePoint point : circlePoints(RADIUS, Pillar.FACES, rotation)) {
+        addPoints(
+          new Strip(
+            Pillar.HEIGHT,
+            x + point.x(),
+            z + point.y()
+          )
+        );
+      }
+    }
   }
 
   public static class Strip extends LXAbstractFixture {
@@ -145,16 +173,42 @@ public class Model extends LXModel {
     }
   }
 
+  // The head lighting is made of 3 10cm strips of 3 LEDs (1 IC) in a triangle.
+  // So the LXPoints in the middle of each side of the trangle are parallel
+  // with each face of the pillar.
+  public static class Head extends LXAbstractFixture {
+    public final static int RADIUS = 6 * CENTIMETER;
+
+    Head(int x, int y, int z, double rotation) {
+      rotation += (Math.PI * 2) / 6;
+
+      for (CirclePoint point : circlePoints(RADIUS, Pillar.FACES, rotation)) {
+        addPoint(
+          new LXPoint(
+            x + point.x(),
+            y,
+            z + point.y()
+          )
+        );
+      }
+    }
+  }
+
   public static class Altar extends LXAbstractFixture {
     public static int HEIGHT = 100 * CENTIMETER;
     public static int RADIUS = 60 * CENTIMETER;
-    public static int STRIPS = 20;
+    public static int HEAD_INSET = 10 * CENTIMETER;
 
     Altar() {
-      CirclePoint[] points = circlePoints(RADIUS, STRIPS);
-
-      for (int strip = 0; strip < STRIPS; strip++) {
-        addPoints(new Strip(HEIGHT, points[strip].x(), points[strip].y()));
+      for (CirclePoint point : circlePoints(RADIUS - HEAD_INSET, PILLARS)) {
+        addPoints(
+          new Head(
+            point.x(),
+            HEIGHT,
+            point.y(),
+            point.angle()
+          )
+        );
       }
     }
   }

@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1566179477670,
+  "timestamp": 1567748785488,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -120,7 +120,7 @@
                     "phase": 0.13999999687075615,
                     "exp": 0.0
                   },
-                  "basis": 0.8619929505417401
+                  "basis": 0.9339029012256185
                 },
                 {
                   "id": 80,
@@ -143,7 +143,7 @@
                     "phase": 0.29999999329447746,
                     "exp": 0.019999999552965164
                   },
-                  "basis": 0.2086204150611136
+                  "basis": 0.8341290855066885
                 },
                 {
                   "id": 82,
@@ -166,7 +166,7 @@
                     "phase": 0.0,
                     "exp": 0.0
                   },
-                  "basis": 0.5390799410828974
+                  "basis": 0.18075697979158845
                 }
               ],
               "modulations": [
@@ -263,16 +263,26 @@
             "modulationColor": -65513,
             "parameters": {
               "label": "ModelParts",
-              "pillar/1": true,
-              "pillar/2": true,
-              "pillar/3": true,
-              "pillar/4": true,
-              "pillar/5": true,
-              "pillar/6": true,
-              "pillar/7": true,
-              "pillar/8": true,
-              "pillar/9": true,
-              "pillar/10": true,
+              "pillar/1/vertical": true,
+              "pillar/1/head": true,
+              "pillar/2/vertical": true,
+              "pillar/2/head": true,
+              "pillar/3/vertical": true,
+              "pillar/3/head": true,
+              "pillar/4/vertical": true,
+              "pillar/4/head": true,
+              "pillar/5/vertical": true,
+              "pillar/5/head": true,
+              "pillar/6/vertical": true,
+              "pillar/6/head": true,
+              "pillar/7/vertical": true,
+              "pillar/7/head": true,
+              "pillar/8/vertical": true,
+              "pillar/8/head": true,
+              "pillar/9/vertical": true,
+              "pillar/9/head": true,
+              "pillar/10/vertical": true,
+              "pillar/10/head": true,
               "altar": true
             },
             "modulation": {
@@ -435,8 +445,8 @@
         "camera": {
           "active": true,
           "radius": 792.6689998835822,
-          "theta": 9.045000000000043,
-          "phi": 0.24671667385101387,
+          "theta": 10.230000000000048,
+          "phi": 0.16871667385101302,
           "x": 1.5,
           "y": 75.0,
           "z": 0.0
@@ -445,8 +455,8 @@
           {
             "active": false,
             "radius": 792.6689998835822,
-            "theta": 9.045000000000043,
-            "phi": 0.24671667385101387,
+            "theta": 10.230000000000048,
+            "phi": 0.16871667385101302,
             "x": 1.5,
             "y": 75.0,
             "z": 0.0
