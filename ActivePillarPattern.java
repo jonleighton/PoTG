@@ -36,7 +36,8 @@ public class ActivePillarPattern extends PillarPattern {
     new QuadraticEnvelope(0, 100, headDuration)
       .setLooping(false);
 
-  private final LXModulator headTrigger = new ModulatorTrigger(delay, headIntensity);
+  private final LXModulator headTrigger =
+    addModulator(new ModulatorTrigger(delay, headIntensity));
 
   private final LXModulator verticalProgress =
     new LinearEnvelope(0, 1, verticalDuration)
@@ -51,14 +52,14 @@ public class ActivePillarPattern extends PillarPattern {
     };
 
   private final LXModulator verticalTrigger =
-    new ModulatorTrigger(headActiveTime, verticalProgress);
+    addModulator(new ModulatorTrigger(headActiveTime, verticalProgress));
 
   private final LXModulator colorIntensity =
     new QuadraticEnvelope(0, 100, colorDuration)
       .setLooping(false);
 
   private final LXModulator colorTrigger =
-    new ModulatorTrigger(headActiveTime, colorIntensity);
+    addModulator(new ModulatorTrigger(headActiveTime, colorIntensity));
 
   public static final int POINTS_PER_VERTICAL = Model.PillarVertical.POINTS_PER_STRIP;
 
@@ -76,10 +77,6 @@ public class ActivePillarPattern extends PillarPattern {
     addParameter("verticalDuration", verticalDuration);
     addParameter("verticalFade", verticalFade);
     addParameter("colorDuration", colorDuration);
-
-    addModulator(headTrigger);
-    addModulator(verticalTrigger);
-    addModulator(colorTrigger);
   }
 
   public void onActive() {
