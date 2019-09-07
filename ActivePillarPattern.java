@@ -28,6 +28,10 @@ public class ActivePillarPattern extends PillarPattern {
     new CompoundParameter("Vert Fade", 1000, 200, 3000)
       .setDescription("How quickly a point on the vertical fades in");
 
+  public final CompoundParameter colorDuration =
+    new CompoundParameter("Color Duration", 2000, 200, 5000)
+      .setDescription("How quickly the color fades in");
+
   private final LXModulator headIntensity =
     new QuadraticEnvelope(0, 100, headDuration)
       .setLooping(false);
@@ -38,16 +42,23 @@ public class ActivePillarPattern extends PillarPattern {
     new LinearEnvelope(0, 1, verticalDuration)
       .setLooping(false);
 
+  private final FunctionalParameter headActiveTime =
+    new FunctionalParameter() {
+      // Activate after the head has finished activating
+      public double getValue() {
+        return delay.getValue() + headDuration.getValue();
+      }
+    };
+
   private final LXModulator verticalTrigger =
-    new ModulatorTrigger(
-      new FunctionalParameter() {
-        // Activate after the head has finished activating
-        public double getValue() {
-          return delay.getValue() + headDuration.getValue();
-        }
-      },
-      verticalProgress
-    );
+    new ModulatorTrigger(headActiveTime, verticalProgress);
+
+  private final LXModulator colorIntensity =
+    new QuadraticEnvelope(0, 100, colorDuration)
+      .setLooping(false);
+
+  private final LXModulator colorTrigger =
+    new ModulatorTrigger(headActiveTime, colorIntensity);
 
   public static final int POINTS_PER_VERTICAL = Model.PillarVertical.POINTS_PER_STRIP;
 
@@ -64,19 +75,22 @@ public class ActivePillarPattern extends PillarPattern {
     addParameter("headDuration", headDuration);
     addParameter("verticalDuration", verticalDuration);
     addParameter("verticalFade", verticalFade);
+    addParameter("colorDuration", colorDuration);
 
     addModulator(headTrigger);
     addModulator(verticalTrigger);
+    addModulator(colorTrigger);
   }
 
   public void onActive() {
     headTrigger.trigger();
     verticalTrigger.trigger();
+    colorTrigger.trigger();
     verticalPoints = new LXModulator[POINTS_PER_VERTICAL];
   }
 
   public void run(double deltaMs) {
-    setHead(LXColor.gray(headIntensity.getValue()));
+    setHead(color(headIntensity.getValue()));
 
     // Points after this threshold should be activated
     double threshold = verticalProgress.getValue() * POINTS_PER_VERTICAL;
@@ -98,10 +112,18 @@ public class ActivePillarPattern extends PillarPattern {
       for (Model.Strip strip : vertical().getStrips()) {
         // Start from the last point as we want to fade in from the top
         int pointIndex = strip.getPoints().get(POINTS_PER_VERTICAL - i - 1).index;
-        int color = LXColor.gray(intensity == null ? 0 : intensity.getValue());
+        int color = color(intensity == null ? 0 : intensity.getValue());
 
         setColor(pointIndex, color);
       }
     }
+  }
+
+  public int color(double brightness) {
+    return LXColor.hsb(
+      pillar().hue(),
+      colorIntensity.getValue(),
+      brightness
+    );
   }
 }

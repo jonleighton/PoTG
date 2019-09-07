@@ -2,6 +2,8 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXFixture;
 import heronarts.lx.model.LXAbstractFixture;
 import heronarts.lx.model.LXPoint;
+import heronarts.lx.LXUtils;
+import heronarts.lx.color.LXColor;
 
 public class Model extends LXModel {
   public final static int CENTIMETER = 1;
@@ -18,7 +20,19 @@ public class Model extends LXModel {
   public final static double LED_SPACING = METER / LEDS_PER_METER;
   public final static double HALF_LED_SPACING = LED_SPACING / 2;
 
+  public final static int[] PILLAR_HUES = pillarHues();
+
   private final Fixture fixture;
+
+  private static int[] pillarHues() {
+    int[] hues = new int[PILLARS];
+
+    for (int i = 0; i < PILLARS; i++) {
+      hues[i] = (int) LXUtils.lerp(0, 360, (double) i / PILLARS);
+    }
+
+    return hues;
+  }
 
   public Model() {
     super(new Fixture());
@@ -148,6 +162,10 @@ public class Model extends LXModel {
 
     int getIndex() {
       return this.index;
+    }
+
+    int hue() {
+      return PILLAR_HUES[this.index];
     }
 
     Head getHead() {
