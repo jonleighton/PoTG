@@ -19,4 +19,9 @@ public class ModulatorTrigger extends Click {
   public void onStop() {
     modulator.trigger();
   }
+
+  public void loop(double deltaMs) {
+    super.loop(deltaMs);
+    modulator.loop(deltaMs);
+  }
 }
