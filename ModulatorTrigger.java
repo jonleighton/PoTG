@@ -12,6 +12,10 @@ public class ModulatorTrigger extends Click {
     this.modulator = modulator;
   }
 
+  public void onStart() {
+    modulator.reset();
+  }
+
   public void onStop() {
     modulator.trigger();
   }

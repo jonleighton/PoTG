@@ -161,17 +161,30 @@ public class Model extends LXModel {
 
   public static class PillarVertical extends LXAbstractFixture {
     public final static int RADIUS = 3 * CENTIMETER;
+    public final static int POINTS_PER_STRIP = (int) (Pillar.HEIGHT / LED_SPACING);
+
+    private Strip[] strips = new Strip[Pillar.FACES];
 
     PillarVertical(int x, int z, double rotation) {
-      for (CirclePoint point : circlePoints(RADIUS, Pillar.FACES, rotation)) {
-        addPoints(
-          new Strip(
-            Pillar.HEIGHT,
-            x + point.x(),
-            z + point.y()
-          )
+      CirclePoint[] points = circlePoints(RADIUS, Pillar.FACES, rotation);
+
+      for (int i = 0; i < Pillar.FACES; i++) {
+        strips[i] = new Strip(
+          Pillar.HEIGHT,
+          x + points[i].x(),
+          z + points[i].y()
         );
+
+        addPoints(strips[i]);
       }
+    }
+
+    public Strip[] getStrips() {
+      return strips;
+    }
+
+    public Strip getStrip(int index) {
+      return strips[index];
     }
   }
 
