@@ -17,19 +17,19 @@ public class ActivePillarPattern extends PillarPattern {
       .setDescription("Length of time the pillar goes dark before the head lights up");
 
   public final CompoundParameter headDuration =
-    new CompoundParameter("Head Duration", 500, 200, 2000)
+    new CompoundParameter("HdDur", 500, 200, 2000)
       .setDescription("How quickly we light the head");
 
   public final CompoundParameter verticalDuration =
-    new CompoundParameter("Vert Duration", 500, 200, 2000)
+    new CompoundParameter("VertDur", 500, 200, 2000)
       .setDescription("How quickly we move down the pillar");
 
   public final CompoundParameter verticalFade =
-    new CompoundParameter("Vert Fade", 1000, 200, 3000)
+    new CompoundParameter("VertFade", 1000, 200, 3000)
       .setDescription("How quickly a point on the vertical fades in");
 
   public final CompoundParameter colorDuration =
-    new CompoundParameter("Color Duration", 2000, 200, 5000)
+    new CompoundParameter("ColDur", 2000, 200, 5000)
       .setDescription("How quickly the color fades in");
 
   private final LXModulator headIntensity =
