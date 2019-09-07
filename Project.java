@@ -25,6 +25,7 @@ public class Project {
   public static void setup(LX lx) {
     lx.registerPattern(ModelPartsPattern.class);
     lx.registerPattern(DormantPillarPattern.class);
+    lx.registerPattern(ActivePillarPattern.class);
 
     lx.registerEffect(StrobeEffect.class);
 
@@ -44,7 +45,11 @@ public class Project {
     engine.removeChannel(engine.getChannel(0));
 
     for (Model.Pillar pillar : model.getPillars()) {
-      LXPattern[] patterns = { new DormantPillarPattern(lx, pillar.getNumber()) };
+      LXPattern[] patterns = {
+        new DormantPillarPattern(lx, pillar.getNumber()),
+        new ActivePillarPattern(lx, pillar.getNumber())
+      };
+
       LXChannel channel = engine.addChannel(patterns);
       channel.label.setValue(String.format("Pillar %s", pillar.getNumber()));
       channel.fader.setValue(100);
