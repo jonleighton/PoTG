@@ -53,6 +53,8 @@ public class Project {
       LXChannel channel = engine.addChannel(patterns);
       channel.label.setValue(String.format("Pillar %s", pillar.getNumber()));
       channel.fader.setValue(100);
+      channel.transitionEnabled.setValue(true);
+      channel.transitionTimeSecs.setValue(0.5);
     }
   }
 }
