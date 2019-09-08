@@ -82,7 +82,7 @@ public class Project {
     LXChannel channel = lx.engine.addChannel(patterns.toArray(new LXPattern[0]));
 
     channel.label.setValue("Texture");
-    channel.fader.setValue(0.7);
+    channel.fader.setValue(1);
     channel.transitionEnabled.setValue(true);
     channel.transitionTimeSecs.setValue(1);
 
