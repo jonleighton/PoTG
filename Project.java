@@ -5,8 +5,9 @@ import heronarts.lx.LXPattern;
 import heronarts.lx.LXEngine;
 import heronarts.lx.LXChannel;
 import heronarts.lx.effect.StrobeEffect;
-import heronarts.lx.blend.MultiplyBlend;
 import heronarts.lx.blend.LXBlend;
+import heronarts.lx.blend.MultiplyBlend;
+import heronarts.lx.blend.NormalBlend;
 
 import java.util.ArrayList;
 
@@ -28,8 +29,10 @@ public class Project {
   // This is shared setup code used by both headless and UI
   public static void setup(LX lx) {
     lx.registerPattern(ModelPartsPattern.class);
+    lx.registerPattern(NonePattern.class);
     lx.registerPattern(DormantPillarPattern.class);
     lx.registerPattern(ActivePillarPattern.class);
+    lx.registerPattern(FinalPattern.class);
     lx.registerPattern(TextureSparkle.class);
 
     lx.registerEffect(StrobeEffect.class);
@@ -49,6 +52,7 @@ public class Project {
     engine.removeChannel(engine.getChannel(0));
 
     setupPillarChannels(lx);
+    setupOverlayChannel(lx);
     setupTextureChannel(lx);
   }
 
@@ -82,8 +86,26 @@ public class Project {
     channel.transitionEnabled.setValue(true);
     channel.transitionTimeSecs.setValue(1);
 
+    setBlend(channel, MultiplyBlend.class);
+  }
+
+  private static void setupOverlayChannel(LX lx) {
+    ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
+
+    patterns.add(new NonePattern(lx));
+    patterns.add(new FinalPattern(lx));
+
+    LXChannel channel = lx.engine.addChannel(patterns.toArray(new LXPattern[0]));
+
+    channel.label.setValue("Overlay");
+    channel.fader.setValue(1);
+
+    setBlend(channel, NormalBlend.class);
+  }
+
+  private static void setBlend(LXChannel channel, Class<? extends LXBlend> blend) {
     for (LXBlend blendMode : channel.blendMode.getObjects()) {
-      if (blendMode instanceof MultiplyBlend) {
+      if (blendMode.getClass() == blend) {
         channel.blendMode.setValue(blendMode);
       }
     }
