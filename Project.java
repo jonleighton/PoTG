@@ -57,6 +57,7 @@ public class Project {
     lx.newProject();
 
     engine.removeChannel(engine.getChannel(0));
+    engine.osc.receiveActive.setValue(true);
 
     buildPillarChannels();
     buildOverlayChannel();

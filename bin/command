@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+
+import time
+import argparse
+import sys
+from pythonosc import udp_client
+
+PILLAR_COUNT = 10
+
+client = udp_client.SimpleUDPClient("127.0.0.1", 3030)
+
+def send_message(path, value):
+    sys.stderr.write(f'{path} {value}\n')
+    client.send_message(path, value)
+
+def send_pillar_message(pillar, path, value):
+    if pillar == None:
+        for i in range(0, PILLAR_COUNT):
+            send_pillar_message(i + 1, path, value)
+    else:
+        send_message(f"/lx/channel/Pillar {pillar}{path}", value)
+
+def activate(args):
+    send_pillar_message(args.pillar, "/activePattern", 1)
+
+def deactivate(args):
+    send_pillar_message(args.pillar, "/activePattern", 0)
+
+parser = argparse.ArgumentParser()
+subparsers = parser.add_subparsers()
+
+pillar_parser = argparse.ArgumentParser(add_help=False)
+pillar_parser.add_argument('pillar', type=int, help='pillar number', nargs='?')
+
+activate_parser = subparsers.add_parser('activate', help='activate a pillar', parents=[pillar_parser])
+activate_parser.set_defaults(func=activate)
+
+deactivate_parser = subparsers.add_parser('deactivate', help='deactivate a pillar', parents=[pillar_parser])
+deactivate_parser.set_defaults(func=deactivate)
+
+args = parser.parse_args()
+args.func(args)

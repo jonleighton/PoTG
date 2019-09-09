@@ -16,15 +16,12 @@ Then run it:
 
     $ bin/headless
 
-## Triggering a channel via OSC/Python
+## Controlling the show
 
-    import time
-    from pythonosc import udp_client
+External control is done via OSC. There is a Python wrapper script which sends the correct messages to accomplish various tasks:
 
-    client = udp_client.SimpleUDPClient("127.0.0.1", 3030)
+### Activate/deactivate a pillar
 
-    while True:
-        client.send_message("/lx/channel/1/enabled", True)
-        time.sleep(1)
-        client.send_message("/lx/channel/1/enabled", False)
-        time.sleep(1)
+`pillar` is a number from 1 to 10. If omitted, all pillars will be triggered.
+
+    $ bin/command {activate,deactivate} pillar

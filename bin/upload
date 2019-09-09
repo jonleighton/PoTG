@@ -9,8 +9,9 @@ ant
 rm -rf "$OUTPUT"
 mkdir -p "$OUTPUT"
 
-cp output/Headless.jar "$OUTPUT"
-cp PoTG.lxp "$OUTPUT"
+cp "output/Headless.jar" "$OUTPUT"
+cp "PoTG.lxp" "$OUTPUT"
+cp "bin/command" "$OUTPUT"
 
 cat << EOF > "$OUTPUT/run.sh"
 #!/bin/bash
