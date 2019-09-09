@@ -1,6 +1,7 @@
 import heronarts.lx.LX;
 import heronarts.lx.LXPattern;
 import heronarts.lx.parameter.DiscreteParameter;
+import heronarts.lx.parameter.BooleanParameter;
 
 public abstract class PillarPattern extends LXPattern {
   public static final int DEFAULT_PILLAR_NUMBER = 1;
@@ -9,14 +10,23 @@ public abstract class PillarPattern extends LXPattern {
     new DiscreteParameter("Pillar", DEFAULT_PILLAR_NUMBER, 1, Model.PILLARS + 1)
       .setDescription("Which pillar is targeted");
 
+  public final BooleanParameter headActive =
+    new BooleanParameter("Head", true)
+      .setDescription("Whether the head is lit");
+
   public PillarPattern(LX lx) {
     super(lx);
     addParameter("pillar", pillarNumber);
+    addParameter("headActive", headActive);
   }
 
   public PillarPattern(LX lx, int pillarNumber) {
     this(lx);
     this.pillarNumber.setValue(pillarNumber);
+  }
+
+  public void onActive() {
+    headActive.setValue(true);
   }
 
   public Model.Pillar pillar() {

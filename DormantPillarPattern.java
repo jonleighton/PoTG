@@ -50,6 +50,14 @@ public class DormantPillarPattern extends PillarPattern {
     }
 
     setVertical(LXColor.gray(active ? intensity.getValuef() : 0));
-    setAltarHead(LXColor.WHITE);
+    setAltarHead(headColor());
+  }
+
+  public int headColor() {
+    if (headActive.getValueb()) {
+      return LXColor.WHITE;
+    } else {
+      return LXColor.BLACK;
+    }
   }
 }

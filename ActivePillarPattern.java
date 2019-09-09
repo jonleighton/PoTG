@@ -80,6 +80,7 @@ public class ActivePillarPattern extends PillarPattern {
   }
 
   public void onActive() {
+    super.onActive();
     headTrigger.trigger();
     verticalTrigger.trigger();
     colorTrigger.trigger();
@@ -87,7 +88,7 @@ public class ActivePillarPattern extends PillarPattern {
   }
 
   public void run(double deltaMs) {
-    setHead(color(headIntensity.getValue()));
+    setHead(headColor());
 
     // Points after this threshold should be activated
     double threshold = verticalProgress.getValue() * POINTS_PER_VERTICAL;
@@ -113,6 +114,14 @@ public class ActivePillarPattern extends PillarPattern {
 
         setColor(pointIndex, color);
       }
+    }
+  }
+
+  public int headColor() {
+    if (headActive.getValueb()) {
+      return color(headIntensity.getValue());
+    } else {
+      return LXColor.BLACK;
     }
   }
 

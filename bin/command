@@ -26,6 +26,9 @@ def activate(args):
 def deactivate(args):
     send_pillar_message(args.pillar, "/activePattern", 0)
 
+def head(args):
+    send_pillar_message(args.pillar, "/pattern/active/headActive", args.active == 'on')
+
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers()
 
@@ -37,6 +40,10 @@ activate_parser.set_defaults(func=activate)
 
 deactivate_parser = subparsers.add_parser('deactivate', help='deactivate a pillar', parents=[pillar_parser])
 deactivate_parser.set_defaults(func=deactivate)
+
+head_parser = subparsers.add_parser('head', help='set the head active state', parents=[pillar_parser])
+head_parser.add_argument('active', choices=['on', 'off'], help='head active')
+head_parser.set_defaults(func=head)
 
 args = parser.parse_args()
 args.func(args)
