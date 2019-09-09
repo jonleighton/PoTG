@@ -23,7 +23,7 @@ public class TextureSparkle extends LXPattern {
   private final SinLFO[] modulators = new SinLFO[points.length];
 
   public final CompoundParameter speed = (CompoundParameter)
-    new CompoundParameter("Speed", 1500, 5000, 200)
+    new CompoundParameter("Speed", 1000, 5000, 200)
     .setExponent(.5)
     .setDescription("Speed of the sparkling");
 
