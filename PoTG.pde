@@ -11,20 +11,17 @@
  * PURPOSE, WITH RESPECT TO THE SOFTWARE.
  */
 
-// Reference to top-level LX instance
-heronarts.lx.studio.LXStudio lx;
-
 void setup() {
   size(1000, 1000, P3D);
-  lx = new heronarts.lx.studio.LXStudio(this, new Model(), MULTITHREADED);
+  LXStudio lx = new heronarts.lx.studio.LXStudio(this, new Model(), MULTITHREADED);
 
   // The needs to be called early on, otherwise LX will look at the .lxproject
   // file and open the last-used project file
-  Project.setupChannels(lx);
+  new Project(lx).build();
 }
 
 void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
-  Project.setup(lx);
+  Project.registerComponents(lx);
 }
 
 void onUIReady(heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {

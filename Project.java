@@ -15,19 +15,28 @@ public class Project {
   // This is the entrypoint for running headless
   public static void main(String[] args) {
     LX lx = new LX(new Model());
-    setup(lx);
+    registerComponents(lx);
 
     if (args.length > 0) {
       lx.openProject(new File(args[0]));
     } else {
-      setupChannels(lx);
+      new Project(lx).build();
     }
 
     lx.engine.start();
   }
 
-  // This is shared setup code used by both headless and UI
-  public static void setup(LX lx) {
+  private final LX lx;
+  private final LXEngine engine;
+  private final Model model;
+
+  public Project(LX lx) {
+    this.lx = lx;
+    this.engine = lx.engine;
+    this.model = (Model) lx.model;
+  }
+
+  public static void registerComponents(LX lx) {
     lx.registerPattern(ModelPartsPattern.class);
     lx.registerPattern(NonePattern.class);
     lx.registerPattern(DormantPillarPattern.class);
@@ -44,26 +53,24 @@ public class Project {
     }
   }
 
-  public static void setupChannels(LX lx) {
-    LXEngine engine = lx.engine;
-
+  public void build() {
     lx.newProject();
 
     engine.removeChannel(engine.getChannel(0));
 
-    setupPillarChannels(lx);
-    setupOverlayChannel(lx);
-    setupTextureChannel(lx);
+    buildPillarChannels();
+    buildOverlayChannel();
+    buildTextureChannel();
   }
 
-  private static void setupPillarChannels(LX lx) {
-    for (Model.Pillar pillar : ((Model) lx.model).getPillars()) {
+  private void buildPillarChannels() {
+    for (Model.Pillar pillar : this.model.getPillars()) {
       ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
 
       patterns.add(new DormantPillarPattern(lx, pillar.getNumber()));
       patterns.add(new ActivePillarPattern(lx, pillar.getNumber()));
 
-      LXChannel channel = lx.engine.addChannel(patterns.toArray(new LXPattern[0]));
+      LXChannel channel = addChannel(patterns);
 
       channel.label.setValue(String.format("Pillar %s", pillar.getNumber()));
       channel.fader.setValue(1);
@@ -72,14 +79,14 @@ public class Project {
     }
   }
 
-  private static void setupTextureChannel(LX lx) {
+  private void buildTextureChannel() {
     ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
 
     TextureSparkle sparkle = new TextureSparkle(lx);
     sparkle.bright.setValue(100);
     patterns.add(sparkle);
 
-    LXChannel channel = lx.engine.addChannel(patterns.toArray(new LXPattern[0]));
+    LXChannel channel = addChannel(patterns);
 
     channel.label.setValue("Texture");
     channel.fader.setValue(1);
@@ -89,13 +96,13 @@ public class Project {
     setBlend(channel, MultiplyBlend.class);
   }
 
-  private static void setupOverlayChannel(LX lx) {
+  private void buildOverlayChannel() {
     ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
 
     patterns.add(new NonePattern(lx));
     patterns.add(new FinalPattern(lx));
 
-    LXChannel channel = lx.engine.addChannel(patterns.toArray(new LXPattern[0]));
+    LXChannel channel = addChannel(patterns);
 
     channel.label.setValue("Overlay");
     channel.fader.setValue(1);
@@ -103,7 +110,11 @@ public class Project {
     setBlend(channel, NormalBlend.class);
   }
 
-  private static void setBlend(LXChannel channel, Class<? extends LXBlend> blend) {
+  private LXChannel addChannel(ArrayList<LXPattern> patterns) {
+    return engine.addChannel(patterns.toArray(new LXPattern[0]));
+  }
+
+  private void setBlend(LXChannel channel, Class<? extends LXBlend> blend) {
     for (LXBlend blendMode : channel.blendMode.getObjects()) {
       if (blendMode.getClass() == blend) {
         channel.blendMode.setValue(blendMode);
