@@ -175,6 +175,10 @@ public class Model extends LXModel {
     PillarVertical getVertical() {
       return this.vertical;
     }
+
+    Strip[] verticalStrips() {
+      return this.vertical.getStrips();
+    }
   }
 
   public static class PillarVertical extends LXAbstractFixture {
