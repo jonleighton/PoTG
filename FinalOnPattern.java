@@ -44,6 +44,8 @@ public class FinalOnPattern extends LXPattern {
       .setRange(lx.engine.crossfader.getValue(), 1)
       .setPeriod(crossfadeSpeed)
       .trigger();
+
+    lx.engine.audio.output.trigger.setValue(true);
   }
 
   public void run(double deltaMs) {

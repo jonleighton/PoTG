@@ -47,6 +47,10 @@ public class Model extends LXModel {
     return this.getAltar().headsFixture();
   }
 
+  public AltarMiddle getAltarMiddle() {
+    return this.getAltar().middleFixture();
+  }
+
   public Pillar[] getPillars() {
     return this.fixture.pillars;
   }

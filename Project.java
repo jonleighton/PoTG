@@ -10,6 +10,9 @@ import heronarts.lx.blend.LXBlend;
 import heronarts.lx.blend.MultiplyBlend;
 import heronarts.lx.blend.NormalBlend;
 import heronarts.lx.pattern.GradientPattern;
+import heronarts.lx.audio.LXAudioEngine;
+import heronarts.lx.audio.BandGate;
+import heronarts.lx.parameter.LXCompoundModulation;
 
 import java.util.ArrayList;
 
@@ -31,6 +34,9 @@ public class Project {
   private final LX lx;
   private final LXEngine engine;
   private final Model model;
+
+  private static final int HERTZ = 1;
+  private static final int KILOHERTZ = 1000 * HERTZ;
 
   public Project(LX lx) {
     this.lx = lx;
@@ -76,6 +82,11 @@ public class Project {
     buildFinalChannel();
     buildFinalColorChannel();
     buildFinalPatternChannel();
+    buildFinalOverlayChannel();
+
+    engine.audio.mode.setValue(LXAudioEngine.Mode.OUTPUT);
+    engine.audio.output.file.setValue("audio.wav");
+    engine.audio.enabled.setValue(true);
   }
 
   private void buildPillarChannels() {
@@ -167,6 +178,32 @@ public class Project {
     channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
 
     setBlend(channel, MultiplyBlend.class);
+  }
+
+  private void buildFinalOverlayChannel() {
+    ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
+
+    patterns.add(new FinalOverlayPattern(lx));
+
+    LXChannel channel = addChannel(patterns);
+
+    channel.label.setValue("Overlay");
+    channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
+
+    BandGate beatDetector = new BandGate(lx);
+    beatDetector.threshold.setValue(0.16);
+    beatDetector.floor.setValue(1.0);
+    beatDetector.running.setValue(true);
+    beatDetector.maxFreq.setValue(16 * KILOHERTZ);
+    beatDetector.minFreq.setValue(5.33 * KILOHERTZ);
+
+    engine.modulation.addModulator(beatDetector);
+
+    LXCompoundModulation modulation = new LXCompoundModulation(beatDetector, channel.fader);
+    modulation.range.setValue(1);
+    modulation.enabled.setValue(true);
+
+    engine.modulation.addModulation(modulation);
   }
 
   private LXChannel addChannel(ArrayList<LXPattern> patterns) {
