@@ -84,4 +84,10 @@ public class PatternClouds extends LXPattern {
       setColor(point.index, LXColor.gray(PApplet.constrain(-thickness + (150 + thickness) * nv, 0, 100)));
     }
   }
+
+  public void setSpeed(double speed) {
+    xSpeed.setValue(speed);
+    ySpeed.setValue(speed);
+    zSpeed.setValue(speed);
+  }
 }

@@ -160,11 +160,29 @@ public class Project {
   private void buildFinalPatternChannel() {
     ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
 
-    patterns.add(new PatternClouds(lx));
-    patterns.add(new PatternScanner(lx));
-    patterns.add(new PatternStarlight(lx));
-    patterns.add(new PatternWaves(lx));
-    patterns.add(new PatternVortex(lx));
+    PatternClouds clouds = new PatternClouds(lx);
+    clouds.setSpeed(0.6);
+    clouds.thickness.setValue(40);
+    clouds.scale.setValue(5.5);
+    patterns.add(clouds);
+
+    PatternScanner scanner = new PatternScanner(lx);
+    scanner.speed.setValue(0.56);
+    scanner.xSlope.setValue(1);
+    scanner.sharp.setValue(30);
+    patterns.add(scanner);
+
+    PatternStarlight starlight = new PatternStarlight(lx);
+    starlight.speed.setValue(1782);
+    patterns.add(starlight);
+
+    PatternWaves waves = new PatternWaves(lx);
+    waves.size.setValue(31.7);
+    patterns.add(waves);
+
+    PatternVortex vortex = new PatternVortex(lx);
+    vortex.speed.setValue(2563);
+    patterns.add(vortex);
 
     LXChannel channel = addChannel(patterns);
 
@@ -174,7 +192,7 @@ public class Project {
     channel.transitionTimeSecs.setValue(5);
     channel.autoCycleEnabled.setValue(true);
     channel.autoCycleMode.setValue(LXChannel.AutoCycleMode.RANDOM);
-    channel.autoCycleTimeSecs.setValue(20);
+    channel.autoCycleTimeSecs.setValue(8);
     channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
 
     setBlend(channel, MultiplyBlend.class);
