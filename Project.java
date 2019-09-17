@@ -72,6 +72,10 @@ public class Project {
   public void build() {
     lx.newProject();
 
+    engine.setThreaded(true);
+    engine.isChannelMultithreaded.setValue(true);
+    engine.isNetworkMultithreaded.setValue(true);
+
     engine.removeChannel(engine.getChannel(0));
     engine.osc.receiveActive.setValue(true);
     engine.crossfader.setValue(-1);
