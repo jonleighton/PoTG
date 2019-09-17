@@ -56,7 +56,7 @@ public class Model extends LXModel {
   }
 
   public Head getAltarHead(int index) {
-    return this.fixture.altar.heads[index];
+    return this.fixture.altar.getHead(index);
   }
 
   public Head getAltarHeadNumber(int number) {
@@ -176,7 +176,7 @@ public class Model extends LXModel {
       return this.vertical;
     }
 
-    Strip[] verticalStrips() {
+    VerticalStrip[] verticalStrips() {
       return this.vertical.getStrips();
     }
   }
@@ -185,13 +185,13 @@ public class Model extends LXModel {
     public final static int RADIUS = 3 * CENTIMETER;
     public final static int POINTS_PER_STRIP = (int) (Pillar.HEIGHT / LED_SPACING);
 
-    private Strip[] strips = new Strip[Pillar.FACES];
+    private VerticalStrip[] strips = new VerticalStrip[Pillar.FACES];
 
     PillarVertical(int x, int z, double rotation) {
       CirclePoint[] points = circlePoints(RADIUS, Pillar.FACES, rotation);
 
       for (int i = 0; i < Pillar.FACES; i++) {
-        strips[i] = new Strip(
+        strips[i] = new VerticalStrip(
           Pillar.HEIGHT,
           x + points[i].x(),
           z + points[i].y()
@@ -201,17 +201,17 @@ public class Model extends LXModel {
       }
     }
 
-    public Strip[] getStrips() {
+    public VerticalStrip[] getStrips() {
       return strips;
     }
 
-    public Strip getStrip(int index) {
+    public VerticalStrip getStrip(int index) {
       return strips[index];
     }
   }
 
-  public static class Strip extends LXAbstractFixture {
-    Strip(int height, int x, int z) {
+  public static class VerticalStrip extends LXAbstractFixture {
+    VerticalStrip(int height, int x, int z) {
       int count = (int) (height / LED_SPACING);
 
       for (int led = 0; led < count; led++) {
@@ -243,24 +243,92 @@ public class Model extends LXModel {
 
   public static class Altar extends LXAbstractFixture {
     public static int HEIGHT = 100 * CENTIMETER;
-    public static int RADIUS = 60 * CENTIMETER;
+    public static int DIAMETER = (int) (1.2 * METER);
+    public static int RADIUS = DIAMETER / 2;
     public static int HEAD_INSET = 10 * CENTIMETER;
 
-    public Head[] heads = new Head[PILLARS];
+    private AltarHeads heads = new AltarHeads();
+    private AltarMiddle middle = new AltarMiddle();
 
     Altar() {
-      CirclePoint points[] = circlePoints(RADIUS - HEAD_INSET, PILLARS);
+      addPoints(heads);
+      addPoints(middle);
+    }
+
+    Head getHead(int index) {
+      return this.heads.get(index);
+    }
+
+    AltarHeads headsFixture() {
+      return this.heads;
+    }
+
+    AltarMiddle middleFixture() {
+      return this.middle;
+    }
+  }
+
+  public static class AltarHeads extends LXAbstractFixture {
+    public Head[] heads = new Head[PILLARS];
+
+    AltarHeads() {
+      CirclePoint points[] = circlePoints(Altar.RADIUS - Altar.HEAD_INSET, PILLARS);
 
       for (int i = 0; i < points.length; i++) {
         Head head = new Head(
           points[i].x(),
-          HEIGHT,
+          Altar.HEIGHT,
           points[i].y(),
           points[i].angle()
         );
 
         heads[i] = head;
         addPoints(head);
+      }
+    }
+
+    Head get(int index) {
+      return this.heads[index];
+    }
+  }
+
+  public static class AltarMiddle extends LXAbstractFixture {
+    public static int DIAMETER = 60 * CENTIMETER;
+    public static int RADIUS = DIAMETER / 2;
+    public static int NUM_STRIPS = 4;
+    public static int POINTS_PER_STRIP = (int) (DIAMETER / LED_SPACING);
+
+    // How far below the lid the LEDs are mounted.
+    public static int LID_OFFSET = 5 * CENTIMETER;
+
+    private AltarMiddleStrip strips[] = new AltarMiddleStrip[NUM_STRIPS];
+
+    AltarMiddle() {
+      CirclePoint[] points = circlePoints(RADIUS, NUM_STRIPS * 2);
+
+      for (int i = 0; i < NUM_STRIPS; i++) {
+        strips[i] = new AltarMiddleStrip(points[i], points[i + NUM_STRIPS]);
+        addPoints(strips[i]);
+      }
+    }
+
+    AltarMiddleStrip getStrip(int index) {
+      return strips[index];
+    }
+  }
+
+  public static class AltarMiddleStrip extends LXAbstractFixture {
+    AltarMiddleStrip(CirclePoint start, CirclePoint finish) {
+      for (int p = 0; p < AltarMiddle.POINTS_PER_STRIP; p++) {
+        // We add 0.5 / POINTS_PER_STRIP so the point is mid-way along the
+        // segment
+        double progress = ((double) p) / AltarMiddle.POINTS_PER_STRIP + (0.5 / AltarMiddle.POINTS_PER_STRIP);
+
+        addPoint(new LXPoint(
+          LXUtils.lerp(start.x(), finish.x(), progress),
+          Altar.HEIGHT - AltarMiddle.LID_OFFSET,
+          LXUtils.lerp(start.y(), finish.y(), progress)
+        ));
       }
     }
   }

@@ -107,7 +107,7 @@ public class ActivePillarPattern extends PillarPattern {
         startModulator(intensity);
       }
 
-      for (Model.Strip strip : vertical().getStrips()) {
+      for (Model.VerticalStrip strip : vertical().getStrips()) {
         // Start from the last point as we want to fade in from the top
         int pointIndex = strip.getPoints().get(POINTS_PER_VERTICAL - i - 1).index;
         int color = color(intensity == null ? 0 : intensity.getValue());

@@ -26,22 +26,25 @@ class Output extends LXDatagramOutput {
 
   final static int HALF_PILLAR_COUNT = Model.PILLARS / 2;
 
+  final static int ALTAR_HEADS_OUTPUT = 8;
+  final static int ALTAR_MIDDLE_OUTPUT = 9;
+
   Output(LX lx) throws SocketException, UnknownHostException {
     super(lx);
     Model model = (Model) lx.model;
 
     for (Model.Pillar pillar : model.getPillars()) {
-      addPillar(pillar);
+      addFixture(pillar);
     }
 
-    // TODO: Add altar
+    addFixture(model.getAltar());
 
     setAddress(CONTROLLER_IP);
   }
 
-  void addPillar(Model.Pillar pillar) {
+  void addFixture(Model.Pillar pillar) {
     ArrayList<Integer> indices = new ArrayList<Integer>();
-    Model.Strip[] strips = pillar.verticalStrips();
+    Model.VerticalStrip[] strips = pillar.verticalStrips();
 
     for (int i = 0; i < strips.length; i++) {
       ArrayList<LXPoint> points = new ArrayList<LXPoint>(strips[i].getPoints());
@@ -60,10 +63,10 @@ class Output extends LXDatagramOutput {
 
     appendIndices(indices, pillar.getHead().getPoints());
 
-    mapOutput(outputNumber(pillar), indices);
+    mapOutput(pillarOutput(pillar), indices);
   }
 
-  int outputNumber(Model.Pillar pillar) {
+  int pillarOutput(Model.Pillar pillar) {
     int pillarNumber = pillar.getNumber();
 
     if (pillarNumber <= HALF_PILLAR_COUNT) {
@@ -72,6 +75,35 @@ class Output extends LXDatagramOutput {
       // Pillar 6 is mapped to output 12, pillar 7 to output 13, etc.
       return OUTPUTS_COUNT - HALF_PILLAR_COUNT + (pillarNumber - HALF_PILLAR_COUNT);
     }
+  }
+
+  void addFixture(Model.Altar altar) {
+    addFixture(altar.headsFixture());
+    addFixture(altar.middleFixture());
+  }
+
+  void addFixture(Model.AltarHeads heads) {
+    ArrayList<Integer> indices = new ArrayList<Integer>();
+    appendIndices(indices, heads.getPoints());
+    mapOutput(ALTAR_HEADS_OUTPUT, indices);
+  }
+
+  void addFixture(Model.AltarMiddle middle) {
+    ArrayList<Integer> indices = new ArrayList<Integer>();
+
+    for (int i = 0; i < Model.AltarMiddle.NUM_STRIPS; i++) {
+      ArrayList<LXPoint> points = new ArrayList<LXPoint>(middle.getStrip(i).getPoints());
+
+      // Odd numbered strips are connected from the finish end of the
+      // previous strip to the finish of this strip.
+      if (i % 2 == 1) {
+        Collections.reverse(points);
+      }
+
+      appendIndices(indices, points);
+    }
+
+    mapOutput(ALTAR_MIDDLE_OUTPUT, indices);
   }
 
   private void mapOutput(int outputNumber, List<Integer> indices) {

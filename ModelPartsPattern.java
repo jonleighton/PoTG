@@ -10,15 +10,35 @@ import java.util.ArrayList;
 
 @LXCategory("Form")
 public class ModelPartsPattern extends LXPattern {
-  public static abstract class FixtureParameter extends BooleanParameter {
-    FixtureParameter(String name) {
+  public static abstract class AbstractFixtureParameter extends BooleanParameter {
+    AbstractFixtureParameter(String name) {
       super(name);
+      setValue(true);
     }
 
     abstract LXFixture getFixture();
   }
 
-  public static abstract class PillarParameter extends FixtureParameter {
+  public static class FixtureParameter extends AbstractFixtureParameter {
+    private String path;
+    private LXFixture fixture;
+
+    FixtureParameter(String name, String path, LXFixture fixture) {
+      super(name);
+      this.path = path;
+      this.fixture = fixture;
+    }
+
+    public LXFixture getFixture() {
+      return this.fixture;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
+  }
+
+  public static abstract class PillarParameter extends AbstractFixtureParameter {
     protected Model.Pillar pillar;
     private String subPath;
 
@@ -57,25 +77,8 @@ public class ModelPartsPattern extends LXPattern {
     }
   }
 
-  public static class AltarParameter extends FixtureParameter {
-    private Model.Altar altar;
-
-    AltarParameter(Model.Altar altar) {
-      super("Altar");
-      this.altar = altar;
-    }
-
-    public String getPath() {
-      return "altar";
-    }
-
-    public LXFixture getFixture() {
-      return (LXFixture) this.altar;
-    }
-  }
-
   private Model model;
-  private ArrayList<FixtureParameter> toggles = new ArrayList<FixtureParameter>();
+  private ArrayList<AbstractFixtureParameter> toggles = new ArrayList<AbstractFixtureParameter>();
 
   public ModelPartsPattern(LX lx) {
     super(lx);
@@ -86,16 +89,17 @@ public class ModelPartsPattern extends LXPattern {
       addToggle(new PillarHeadParameter(pillar));
     }
 
-    addToggle(new AltarParameter(this.model.getAltar()));
+    addToggle(new FixtureParameter("AltHds", "altarHeads", this.model.getAltar().headsFixture()));
+    addToggle(new FixtureParameter("AltMid", "altarMiddle", this.model.getAltar().middleFixture()));
   }
 
-  public void addToggle(FixtureParameter parameter) {
+  public void addToggle(AbstractFixtureParameter parameter) {
     toggles.add(parameter);
     addParameter(parameter.getPath(), parameter);
   }
 
   public void run(double deltaMs) {
-    for (FixtureParameter parameter : this.toggles) {
+    for (AbstractFixtureParameter parameter : this.toggles) {
       toggleFixture(parameter, parameter.getFixture());
     }
   }
