@@ -7,6 +7,9 @@
 			<classpath>
 				<pathelement location="./code/P3LX.jar" />
 			</classpath>
+			<classpath>
+				<pathelement location="./code/processing-core.jar" />
+			</classpath>
 			<compilerarg value="-Xlint"/>
 		</javac>
 		<jar jarfile="./output/Headless.jar" basedir="./output">

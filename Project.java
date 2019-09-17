@@ -42,7 +42,15 @@ public class Project {
     lx.registerPattern(DormantPillarPattern.class);
     lx.registerPattern(ActivePillarPattern.class);
     lx.registerPattern(FinalPattern.class);
+
     lx.registerPattern(TextureSparkle.class);
+    lx.registerPattern(TextureCrawl.class);
+
+    lx.registerPattern(PatternClouds.class);
+    lx.registerPattern(PatternScanner.class);
+    lx.registerPattern(PatternStarlight.class);
+    lx.registerPattern(PatternWaves.class);
+    lx.registerPattern(PatternVortex.class);
 
     lx.registerEffect(StrobeEffect.class);
 
@@ -86,6 +94,8 @@ public class Project {
     TextureSparkle sparkle = new TextureSparkle(lx);
     sparkle.bright.setValue(100);
     patterns.add(sparkle);
+
+    patterns.add(new TextureCrawl(lx));
 
     LXChannel channel = addChannel(patterns);
 
