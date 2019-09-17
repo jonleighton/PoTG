@@ -4,10 +4,12 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.LXPattern;
 import heronarts.lx.LXEngine;
 import heronarts.lx.LXChannel;
+import heronarts.lx.LXChannelBus;
 import heronarts.lx.effect.StrobeEffect;
 import heronarts.lx.blend.LXBlend;
 import heronarts.lx.blend.MultiplyBlend;
 import heronarts.lx.blend.NormalBlend;
+import heronarts.lx.pattern.GradientPattern;
 
 import java.util.ArrayList;
 
@@ -38,10 +40,10 @@ public class Project {
 
   public static void registerComponents(LX lx) {
     lx.registerPattern(ModelPartsPattern.class);
-    lx.registerPattern(NonePattern.class);
     lx.registerPattern(DormantPillarPattern.class);
     lx.registerPattern(ActivePillarPattern.class);
-    lx.registerPattern(FinalPattern.class);
+    lx.registerPattern(FinalOffPattern.class);
+    lx.registerPattern(FinalOnPattern.class);
 
     lx.registerPattern(TextureSparkle.class);
     lx.registerPattern(TextureCrawl.class);
@@ -66,10 +68,14 @@ public class Project {
 
     engine.removeChannel(engine.getChannel(0));
     engine.osc.receiveActive.setValue(true);
+    engine.crossfader.setValue(-1);
 
     buildPillarChannels();
-    buildOverlayChannel();
-    buildTextureChannel();
+    buildNormalTextureChannel();
+
+    buildFinalChannel();
+    buildFinalColorChannel();
+    buildFinalPatternChannel();
   }
 
   private void buildPillarChannels() {
@@ -85,10 +91,11 @@ public class Project {
       channel.fader.setValue(1);
       channel.transitionEnabled.setValue(true);
       channel.transitionTimeSecs.setValue(0.5);
+      channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.A);
     }
   }
 
-  private void buildTextureChannel() {
+  private void buildNormalTextureChannel() {
     ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
 
     TextureSparkle sparkle = new TextureSparkle(lx);
@@ -103,22 +110,63 @@ public class Project {
     channel.fader.setValue(1);
     channel.transitionEnabled.setValue(true);
     channel.transitionTimeSecs.setValue(1);
+    channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.A);
 
     setBlend(channel, MultiplyBlend.class);
   }
 
-  private void buildOverlayChannel() {
+  private void buildFinalChannel() {
     ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
 
-    patterns.add(new NonePattern(lx));
-    patterns.add(new FinalPattern(lx));
+    patterns.add(new FinalOffPattern(lx));
+    patterns.add(new FinalOnPattern(lx));
 
     LXChannel channel = addChannel(patterns);
 
-    channel.label.setValue("Overlay");
+    channel.label.setValue("Final");
     channel.fader.setValue(1);
+    channel.transitionEnabled.setValue(true);
+    channel.transitionTimeSecs.setValue(10);
+    channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
+  }
 
-    setBlend(channel, NormalBlend.class);
+  private void buildFinalColorChannel() {
+    ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
+
+    patterns.add(new GradientPattern(lx));
+
+    LXChannel channel = addChannel(patterns);
+
+    channel.label.setValue("Color");
+    channel.fader.setValue(1);
+    channel.transitionEnabled.setValue(true);
+    channel.transitionTimeSecs.setValue(1);
+    channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
+
+    setBlend(channel, MultiplyBlend.class);
+  }
+
+  private void buildFinalPatternChannel() {
+    ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
+
+    patterns.add(new PatternClouds(lx));
+    patterns.add(new PatternScanner(lx));
+    patterns.add(new PatternStarlight(lx));
+    patterns.add(new PatternWaves(lx));
+    patterns.add(new PatternVortex(lx));
+
+    LXChannel channel = addChannel(patterns);
+
+    channel.label.setValue("Pattern");
+    channel.fader.setValue(1);
+    channel.transitionEnabled.setValue(true);
+    channel.transitionTimeSecs.setValue(5);
+    channel.autoCycleEnabled.setValue(true);
+    channel.autoCycleMode.setValue(LXChannel.AutoCycleMode.RANDOM);
+    channel.autoCycleTimeSecs.setValue(20);
+    channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
+
+    setBlend(channel, MultiplyBlend.class);
   }
 
   private LXChannel addChannel(ArrayList<LXPattern> patterns) {
