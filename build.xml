@@ -14,6 +14,7 @@
 		</javac>
 		<jar jarfile="./output/Headless.jar" basedir="./output">
 			<zipgroupfileset dir="./code" includes="P3LX.jar" />
+			<zipgroupfileset dir="./code" includes="processing-core.jar" />
 			<manifest>
 				<attribute name="Main-Class" value="Project"/>
 			</manifest>
