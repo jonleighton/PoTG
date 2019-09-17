@@ -160,12 +160,6 @@ public class Project {
   private void buildFinalPatternChannel() {
     ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
 
-    PatternClouds clouds = new PatternClouds(lx);
-    clouds.setSpeed(0.6);
-    clouds.thickness.setValue(40);
-    clouds.scale.setValue(5.5);
-    patterns.add(clouds);
-
     PatternScanner scanner = new PatternScanner(lx);
     scanner.speed.setValue(0.56);
     scanner.xSlope.setValue(1);
