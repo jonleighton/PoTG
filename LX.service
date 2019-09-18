@@ -1,0 +1,25 @@
+# See http://www.diegoacuna.me/how-to-run-a-script-as-a-service-in-raspberry-pi-raspbian-jessie/
+#
+# Install this to /lib/systemd/system/LX.service, then:
+#
+#   $ sudo chmod 644 /lib/systemd/system/LX.service
+#   $ sudo systemctl daemon-reload
+#   $ sudo systemctl enable LX.service
+#   $ sudo systemctl start LX.service
+#
+# To see the logs:
+#
+#   $ sudo journalctl -f -u LX.service
+
+[Unit]
+Description=LX
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/potg-lights/run.sh
+User=pi
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

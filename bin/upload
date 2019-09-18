@@ -3,22 +3,24 @@
 cd "$(dirname "$0")/.."
 
 OUTPUT="output/pi/"
-PI_HOST="192.168.10.1"
+PI_HOST="${1:-192.168.10.1}"
 
 ant
 rm -rf "$OUTPUT"
 mkdir -p "$OUTPUT"
 
 cp "output/Headless.jar" "$OUTPUT"
-cp "PoTG.lxp" "$OUTPUT"
+cp "test.lxp" "$OUTPUT"
 cp "bin/command" "$OUTPUT"
+cp *.wav "$OUTPUT"
 
 cat << EOF > "$OUTPUT/run.sh"
 #!/bin/bash
 ROOT="\$(dirname "\$0")"
+cd "\$ROOT"
 java -jar "\$ROOT/Headless.jar" "\$@"
 EOF
 
 chmod +x "$OUTPUT/run.sh"
 
-scp "$OUTPUT"/* "pi@$PI_HOST:potg-lights/"
+rsync "$OUTPUT"/* "pi@$PI_HOST:potg-lights/"
