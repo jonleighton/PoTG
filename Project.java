@@ -13,6 +13,7 @@ import heronarts.lx.pattern.GradientPattern;
 import heronarts.lx.audio.LXAudioEngine;
 import heronarts.lx.audio.BandGate;
 import heronarts.lx.parameter.LXCompoundModulation;
+import heronarts.lx.color.LXPalette;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,9 @@ public class Project {
   private static final int HERTZ = 1;
   private static final int KILOHERTZ = 1000 * HERTZ;
 
+  private static final int MILLISECONDS = 1;
+  private static final int SECONDS = 1000 * MILLISECONDS;
+
   public Project(LX lx) {
     this.lx = lx;
     this.engine = lx.engine;
@@ -60,6 +64,8 @@ public class Project {
     lx.registerPattern(PatternWaves.class);
     lx.registerPattern(PatternVortex.class);
 
+    lx.registerPattern(ColorLighthouse.class);
+
     lx.registerEffect(StrobeEffect.class);
 
     try {
@@ -79,6 +85,10 @@ public class Project {
     engine.removeChannel(engine.getChannel(0));
     engine.osc.receiveActive.setValue(true);
     engine.crossfader.setValue(-1);
+
+    lx.palette.hueMode.setValue(LXPalette.Mode.CYCLE);
+    lx.palette.period.setValue(10 * SECONDS);
+    lx.palette.color.saturation.setValue(75);
 
     buildPillarChannels();
     buildNormalTextureChannel();
@@ -148,14 +158,31 @@ public class Project {
   private void buildFinalColorChannel() {
     ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
 
-    patterns.add(new GradientPattern(lx));
+    ColorLighthouse lighthouse = new ColorLighthouse(lx);
+    lighthouse.speed.setValue(7910);
+    lighthouse.spread.setValue(180);
+    lighthouse.slope.setValue(1);
+    patterns.add(lighthouse);
+
+    ColorRain rain = new ColorRain(lx);
+    rain.speed.setValue(1.25);
+    rain.range.setValue(50);
+    patterns.add(rain);
+
+    ColorSwirl swirl = new ColorSwirl(lx);
+    swirl.speed.setValue(1);
+    swirl.slope.setValue(1.5);
+    patterns.add(swirl);
 
     LXChannel channel = addChannel(patterns);
 
     channel.label.setValue("Color");
     channel.fader.setValue(1);
     channel.transitionEnabled.setValue(true);
-    channel.transitionTimeSecs.setValue(1);
+    channel.transitionTimeSecs.setValue(5);
+    channel.autoCycleEnabled.setValue(true);
+    channel.autoCycleMode.setValue(LXChannel.AutoCycleMode.RANDOM);
+    channel.autoCycleTimeSecs.setValue(10);
     channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
 
     setBlend(channel, MultiplyBlend.class);
