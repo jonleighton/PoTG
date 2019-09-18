@@ -5,6 +5,8 @@ import heronarts.lx.model.LXPoint;
 import heronarts.lx.LXUtils;
 import heronarts.lx.color.LXColor;
 
+import java.util.Arrays;
+
 public class Model extends LXModel {
   public final static int CENTIMETER = 1;
   public final static int METER = 100 * CENTIMETER;
@@ -23,6 +25,55 @@ public class Model extends LXModel {
   public final static int[] PILLAR_HUES = pillarHues();
 
   private final Fixture fixture;
+
+  public enum Animal {
+    DEER,
+    PEACOCK,
+    HORSE,
+    BEAR,
+    LION,
+    WOLF,
+    ELEPHANT,
+    KOALA,
+    MEERKAT,
+    HAWK,
+  }
+
+  // Anti-clockwise
+  public final static Animal[] ALTAR_ORDER = {
+    Animal.DEER,
+    Animal.HAWK,
+    Animal.MEERKAT,
+    Animal.KOALA,
+    Animal.ELEPHANT,
+    Animal.WOLF,
+    Animal.LION,
+    Animal.BEAR,
+    Animal.HORSE,
+    Animal.PEACOCK,
+  };
+
+  // Anti-clockwise
+  public final static Animal[] PILLAR_ORDER = {
+    Animal.MEERKAT,
+    Animal.ELEPHANT,
+    Animal.WOLF,
+    Animal.HAWK,
+    Animal.HORSE,
+    Animal.LION,
+    Animal.KOALA,
+    Animal.DEER,
+    Animal.PEACOCK,
+    Animal.BEAR,
+  };
+
+  // A mapping from a pillar index to the corresponding altar head index
+  public final static int[] PILLAR_TO_ALTAR_HEAD = new int[PILLARS];
+  static {
+    for (int i = 0; i < PILLARS; i++) {
+      PILLAR_TO_ALTAR_HEAD[i] = Arrays.asList(ALTAR_ORDER).indexOf(PILLAR_ORDER[i]);
+    }
+  }
 
   private static int[] pillarHues() {
     int[] hues = new int[PILLARS];
@@ -63,8 +114,8 @@ public class Model extends LXModel {
     return this.getPillar(number - 1);
   }
 
-  public Head getAltarHead(int index) {
-    return this.fixture.altar.getHead(index);
+  public Head getAltarHead(int pillarIndex) {
+    return this.fixture.altar.getHead(PILLAR_TO_ALTAR_HEAD[pillarIndex]);
   }
 
   public Head getAltarHeadNumber(int number) {

@@ -39,11 +39,13 @@ public class ModelPartsPattern extends LXPattern {
   }
 
   public static abstract class PillarParameter extends AbstractFixtureParameter {
+    protected Model model;
     protected Model.Pillar pillar;
     private String subPath;
 
-    PillarParameter(Model.Pillar pillar, String label, String subPath) {
+    PillarParameter(Model model, Model.Pillar pillar, String label, String subPath) {
       super(String.format("%s %s", label, pillar.getNumber()));
+      this.model = model;
       this.subPath = subPath;
       this.pillar = pillar;
     }
@@ -58,8 +60,8 @@ public class ModelPartsPattern extends LXPattern {
   }
 
   public static class PillarVerticalParameter extends PillarParameter {
-    PillarVerticalParameter(Model.Pillar pillar) {
-      super(pillar, "PV", "vertical");
+    PillarVerticalParameter(Model model, Model.Pillar pillar) {
+      super(model, pillar, "PV", "vertical");
     }
 
     public LXFixture getFixture() {
@@ -68,12 +70,22 @@ public class ModelPartsPattern extends LXPattern {
   }
 
   public static class PillarHeadParameter extends PillarParameter {
-    PillarHeadParameter(Model.Pillar pillar) {
-      super(pillar, "PH", "head");
+    PillarHeadParameter(Model model, Model.Pillar pillar) {
+      super(model, pillar, "PH", "head");
     }
 
     public LXFixture getFixture() {
       return (LXFixture) pillar.getHead();
+    }
+  }
+
+  public static class AltarHeadParameter extends PillarParameter {
+    AltarHeadParameter(Model model, Model.Pillar pillar) {
+      super(model, pillar, "AH", "altarHead");
+    }
+
+    public LXFixture getFixture() {
+      return (LXFixture) model.getAltarHead(pillar.getIndex());
     }
   }
 
@@ -85,11 +97,11 @@ public class ModelPartsPattern extends LXPattern {
     this.model = (Model) lx.model;
 
     for (Model.Pillar pillar : this.model.getPillars()) {
-      addToggle(new PillarVerticalParameter(pillar));
-      addToggle(new PillarHeadParameter(pillar));
+      addToggle(new PillarVerticalParameter(this.model, pillar));
+      addToggle(new PillarHeadParameter(this.model, pillar));
+      addToggle(new AltarHeadParameter(this.model, pillar));
     }
 
-    addToggle(new FixtureParameter("AltHds", "altarHeads", this.model.getAltar().headsFixture()));
     addToggle(new FixtureParameter("AltMid", "altarMiddle", this.model.getAltar().middleFixture()));
   }
 

@@ -22,14 +22,16 @@ public class Project {
   public static void main(String[] args) {
     LX lx = new LX(new Model());
     registerComponents(lx);
+    processArgs(lx, args);
+    lx.engine.start();
+  }
 
-    if (args.length > 0) {
+  public static void processArgs(LX lx, String[] args) {
+    if (args != null && args.length > 0) {
       lx.openProject(new File(args[0]));
     } else {
       new Project(lx).build();
     }
-
-    lx.engine.start();
   }
 
   private final LX lx;

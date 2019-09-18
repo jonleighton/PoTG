@@ -3,6 +3,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Arrays;
 
 import heronarts.lx.LX;
 import heronarts.lx.output.LXDatagramOutput;
@@ -25,6 +26,11 @@ class Output extends LXDatagramOutput {
   final static int OUTPUTS_COUNT = 16;
 
   final static int HALF_PILLAR_COUNT = Model.PILLARS / 2;
+
+  // This is the first head in the chain that is connected to the PixLite, i.e.
+  // the one which aligns with the hinge on the altar lid.
+  final static Model.Animal FIRST_ALTAR_HEAD = Model.Animal.ELEPHANT;
+  final static int FIRST_ALTAR_HEAD_INDEX = Arrays.asList(Model.ALTAR_ORDER).indexOf(FIRST_ALTAR_HEAD);
 
   final static int ALTAR_HEADS_OUTPUT = 8;
   final static int ALTAR_MIDDLE_OUTPUT = 9;
@@ -84,7 +90,11 @@ class Output extends LXDatagramOutput {
 
   void addFixture(Model.AltarHeads heads) {
     ArrayList<Integer> indices = new ArrayList<Integer>();
-    appendIndices(indices, heads.getPoints());
+
+    for (int i = 0; i < Model.PILLARS; i++) {
+      appendIndices(indices, heads.get((FIRST_ALTAR_HEAD_INDEX + i) % Model.PILLARS).getPoints());
+    }
+
     mapOutput(ALTAR_HEADS_OUTPUT, indices);
   }
 

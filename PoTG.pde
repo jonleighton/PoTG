@@ -15,9 +15,9 @@ void setup() {
   size(1000, 1000, P3D);
   LXStudio lx = new heronarts.lx.studio.LXStudio(this, new Model(), MULTITHREADED);
 
-  // The needs to be called early on, otherwise LX will look at the .lxproject
+  // This needs to be called early on, otherwise LX will look at the .lxproject
   // file and open the last-used project file
-  new Project(lx).build();
+  Project.processArgs(lx, args);
 }
 
 void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
