@@ -7,6 +7,7 @@ import heronarts.lx.modulator.QuadraticEnvelope;
 import heronarts.lx.modulator.LXPeriodicModulator;
 import heronarts.lx.modulator.LXRangeModulator;
 import heronarts.lx.modulator.LinearEnvelope;
+import heronarts.lx.audio.LXAudioOutput;
 
 @LXCategory("Form")
 public class FinalOnPattern extends LXPattern {
@@ -24,6 +25,8 @@ public class FinalOnPattern extends LXPattern {
 
   private final LXRangeModulator crossfader =
     new LinearEnvelope(0, 1, crossfadeSpeed);
+
+  private final LXAudioOutput audioOutput = lx.engine.audio.output;
 
   public FinalOnPattern(LX lx) {
     super(lx);
@@ -45,10 +48,17 @@ public class FinalOnPattern extends LXPattern {
       .setPeriod(crossfadeSpeed)
       .trigger();
 
-    lx.engine.audio.output.trigger.setValue(true);
+    audioOutput.trigger.setValue(true);
   }
 
   public void run(double deltaMs) {
+    // If we've finished playing the audio file, it's time to deactivate the
+    // final state.
+    if (!audioOutput.trigger.isOn() && !audioOutput.play.isOn()) {
+      getChannel().goNext();
+      return;
+    }
+
     if (crossfader.isRunning()) {
       lx.engine.crossfader.setValue(crossfader.getValue());
     }
