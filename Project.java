@@ -99,7 +99,6 @@ public class Project {
     buildFinalOverlayChannel();
 
     engine.audio.mode.setValue(LXAudioEngine.Mode.OUTPUT);
-    engine.audio.output.file.setValue("audio.wav");
     engine.audio.enabled.setValue(true);
   }
 

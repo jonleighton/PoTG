@@ -5,13 +5,17 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.FunctionalParameter;
 import heronarts.lx.modulator.LXModulator;
+import heronarts.lx.modulator.LXPeriodicModulator;
 import heronarts.lx.modulator.QuadraticEnvelope;
 import heronarts.lx.modulator.LinearEnvelope;
+import heronarts.lx.audio.LXAudioOutput;
 
 import java.util.List;
 
 @LXCategory("Form")
 public class ActivePillarPattern extends PillarPattern {
+  private final static String AUDIO_FILE = "activation.wav";
+
   public final CompoundParameter delay =
     new CompoundParameter("Delay", 1000, 200, 3000)
       .setDescription("Length of time the pillar goes dark before the head lights up");
@@ -33,15 +37,22 @@ public class ActivePillarPattern extends PillarPattern {
       .setDescription("How quickly the color fades in");
 
   private final LXModulator headIntensity =
-    new QuadraticEnvelope(0, 100, headDuration)
-      .setLooping(false);
+    addModulator(
+      new QuadraticEnvelope(0, 100, headDuration)
+        .setLooping(false)
+    );
 
-  private final LXModulator headTrigger =
-    addModulator(new ModulatorTrigger(delay, headIntensity));
+  private final LXPeriodicModulator headTrigger = (LXPeriodicModulator)
+    addModulator(
+      new LinearEnvelope(0, 1, delay)
+        .setLooping(false)
+    );
 
   private final LXModulator verticalProgress =
-    new LinearEnvelope(0, 1, verticalDuration)
-      .setLooping(false);
+    addModulator(
+      new LinearEnvelope(0, 1, verticalDuration)
+        .setLooping(false)
+    );
 
   private final FunctionalParameter headActiveTime =
     new FunctionalParameter() {
@@ -51,15 +62,19 @@ public class ActivePillarPattern extends PillarPattern {
       }
     };
 
-  private final LXModulator verticalTrigger =
-    addModulator(new ModulatorTrigger(headActiveTime, verticalProgress));
+  private final LXPeriodicModulator verticalTrigger = (LXPeriodicModulator)
+    addModulator(
+      new LinearEnvelope(0, 1, headActiveTime)
+        .setLooping(false)
+    );
 
   private final LXModulator colorIntensity =
-    new QuadraticEnvelope(0, 100, colorDuration)
-      .setLooping(false);
+    addModulator(
+      new QuadraticEnvelope(0, 100, colorDuration)
+        .setLooping(false)
+    );
 
-  private final LXModulator colorTrigger =
-    addModulator(new ModulatorTrigger(headActiveTime, colorIntensity));
+  private final LXAudioOutput audioOutput = lx.engine.audio.output;
 
   public static final int POINTS_PER_VERTICAL = Model.PillarVertical.POINTS_PER_STRIP;
 
@@ -81,13 +96,30 @@ public class ActivePillarPattern extends PillarPattern {
 
   public void onActive() {
     super.onActive();
+
     headTrigger.trigger();
+    headIntensity.reset();
+
     verticalTrigger.trigger();
-    colorTrigger.trigger();
+    verticalProgress.reset();
+    colorIntensity.reset();
+
     verticalPoints = new LXModulator[POINTS_PER_VERTICAL];
   }
 
   public void run(double deltaMs) {
+    if (headTrigger.finished()) {
+      headIntensity.trigger();
+
+      audioOutput.file.setValue(AUDIO_FILE);
+      audioOutput.trigger.setValue(true);
+    }
+
+    if (verticalTrigger.finished()) {
+      verticalProgress.trigger();
+      colorIntensity.trigger();
+    }
+
     setHead(headColor());
 
     // Points after this threshold should be activated

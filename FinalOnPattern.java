@@ -11,6 +11,8 @@ import heronarts.lx.audio.LXAudioOutput;
 
 @LXCategory("Form")
 public class FinalOnPattern extends LXPattern {
+  private final static String AUDIO_FILE = "final.wav";
+
   public final CompoundParameter speed =
     new CompoundParameter("Speed", 10000, 10000, 200)
       .setDescription("Speed to bring pattern in");
@@ -48,6 +50,7 @@ public class FinalOnPattern extends LXPattern {
       .setPeriod(crossfadeSpeed)
       .trigger();
 
+    audioOutput.file.setValue(AUDIO_FILE);
     audioOutput.trigger.setValue(true);
   }
 
