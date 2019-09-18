@@ -40,31 +40,37 @@ public class Model extends LXModel {
   }
 
   // Anti-clockwise
+  //
+  // For simplicity, this is arranged so that the first animal in the model
+  // corresponds to the first animal along the LED strip.
   public final static Animal[] ALTAR_ORDER = {
-    Animal.DEER,
-    Animal.HAWK,
-    Animal.MEERKAT,
-    Animal.KOALA,
     Animal.ELEPHANT,
     Animal.WOLF,
     Animal.LION,
     Animal.BEAR,
     Animal.HORSE,
     Animal.PEACOCK,
+    Animal.DEER,
+    Animal.HAWK,
+    Animal.MEERKAT,
+    Animal.KOALA,
   };
 
   // Anti-clockwise
+  //
+  // For simplicity, the first animal in this list corresponds to PixLite
+  // output 1
   public final static Animal[] PILLAR_ORDER = {
-    Animal.MEERKAT,
-    Animal.ELEPHANT,
-    Animal.WOLF,
-    Animal.HAWK,
     Animal.HORSE,
     Animal.LION,
     Animal.KOALA,
     Animal.DEER,
     Animal.PEACOCK,
     Animal.BEAR,
+    Animal.MEERKAT,
+    Animal.ELEPHANT,
+    Animal.WOLF,
+    Animal.HAWK,
   };
 
   // A mapping from a pillar index to the corresponding altar head index

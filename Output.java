@@ -27,11 +27,6 @@ class Output extends LXDatagramOutput {
 
   final static int HALF_PILLAR_COUNT = Model.PILLARS / 2;
 
-  // This is the first head in the chain that is connected to the PixLite, i.e.
-  // the one which aligns with the hinge on the altar lid.
-  final static Model.Animal FIRST_ALTAR_HEAD = Model.Animal.ELEPHANT;
-  final static int FIRST_ALTAR_HEAD_INDEX = Arrays.asList(Model.ALTAR_ORDER).indexOf(FIRST_ALTAR_HEAD);
-
   final static int ALTAR_HEADS_OUTPUT = 8;
   final static int ALTAR_MIDDLE_OUTPUT = 9;
 
@@ -67,7 +62,7 @@ class Output extends LXDatagramOutput {
       appendIndices(indices, points);
     }
 
-    appendIndices(indices, pillar.getHead().getPoints());
+    appendIndices(indices, pillar.getHead());
 
     mapOutput(pillarOutput(pillar), indices);
   }
@@ -90,11 +85,7 @@ class Output extends LXDatagramOutput {
 
   void addFixture(Model.AltarHeads heads) {
     ArrayList<Integer> indices = new ArrayList<Integer>();
-
-    for (int i = 0; i < Model.PILLARS; i++) {
-      appendIndices(indices, heads.get((FIRST_ALTAR_HEAD_INDEX + i) % Model.PILLARS).getPoints());
-    }
-
+    appendIndices(indices, heads);
     mapOutput(ALTAR_HEADS_OUTPUT, indices);
   }
 
@@ -130,6 +121,10 @@ class Output extends LXDatagramOutput {
     for (LXPoint point : points) {
       indices.add(point.index);
     }
+  }
+
+  private void appendIndices(List<Integer> indices, LXFixture fixture) {
+    appendIndices(indices, fixture.getPoints());
   }
 
   private int[] indicesAsArray(List<Integer> indicesList) {
