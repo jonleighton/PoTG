@@ -18,9 +18,13 @@ public class DormantPillarPattern extends PillarPattern {
     new CompoundParameter("Probability", 0.5)
       .setDescription("The probability this pillar will light up");
 
+  public final CompoundParameter min =
+    new CompoundParameter("Min", 30, 0, 100)
+      .setDescription("Minimum intensity of any pillar at all times");
+
   private final LXModulator intensity =
     addModulator(
-      new SinLFO(0, 100, speed)
+      new SinLFO(min, 100, speed)
         .setLooping(false)
     );
 
