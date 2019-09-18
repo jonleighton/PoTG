@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1568776444005,
+  "timestamp": 1568779580827,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -255,7 +255,7 @@
         },
         "effects": [],
         "clips": [],
-        "patternIndex": 0,
+        "patternIndex": 1,
         "patterns": [
           {
             "id": 245,
@@ -265,25 +265,34 @@
               "label": "ModelParts",
               "pillar/1/vertical": true,
               "pillar/1/head": true,
+              "pillar/1/altarHead": true,
               "pillar/2/vertical": true,
               "pillar/2/head": true,
+              "pillar/2/altarHead": true,
               "pillar/3/vertical": true,
               "pillar/3/head": true,
+              "pillar/3/altarHead": true,
               "pillar/4/vertical": true,
               "pillar/4/head": true,
+              "pillar/4/altarHead": true,
               "pillar/5/vertical": true,
               "pillar/5/head": true,
+              "pillar/5/altarHead": true,
               "pillar/6/vertical": true,
               "pillar/6/head": true,
+              "pillar/6/altarHead": true,
               "pillar/7/vertical": true,
               "pillar/7/head": true,
+              "pillar/7/altarHead": true,
               "pillar/8/vertical": true,
               "pillar/8/head": true,
+              "pillar/8/altarHead": true,
               "pillar/9/vertical": true,
               "pillar/9/head": true,
+              "pillar/9/altarHead": true,
               "pillar/10/vertical": true,
               "pillar/10/head": true,
-              "altarHeads": true,
+              "pillar/10/altarHead": true,
               "altarMiddle": true
             },
             "modulation": {
@@ -292,6 +301,21 @@
               "triggers": []
             },
             "autoCycleEnabled": true
+          },
+          {
+            "id": 1006,
+            "class": "heronarts.lx.pattern.IteratorPattern",
+            "modulationColor": -11665153,
+            "parameters": {
+              "label": "Iterator",
+              "speed": 6.0400000885128975
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
+              "triggers": []
+            },
+            "autoCycleEnabled": false
           }
         ]
       }
@@ -446,8 +470,8 @@
         "camera": {
           "active": true,
           "radius": 792.6689998835822,
-          "theta": 11.268000000000074,
-          "phi": 1.4137166738510132,
+          "theta": 10.995000000000063,
+          "phi": 1.0987166738510208,
           "x": 1.5,
           "y": 75.0,
           "z": 0.0
@@ -456,8 +480,8 @@
           {
             "active": false,
             "radius": 792.6689998835822,
-            "theta": 11.268000000000074,
-            "phi": 1.4137166738510132,
+            "theta": 10.995000000000063,
+            "phi": 1.0987166738510208,
             "x": 1.5,
             "y": 75.0,
             "z": 0.0

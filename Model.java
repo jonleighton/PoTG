@@ -204,6 +204,13 @@ public class Model extends LXModel {
     Pillar(int index, int x, int z, double rotation) {
       this.index = index;
 
+      // This gets the first vertical strip facing towards the altar
+      // We want the data to come into the bottom of the pillar, go up the
+      // strip facing the altar, down the next strip anti-clockwise, up the
+      // next strip, then through a hole into the head triangle. The first head
+      // triange strip is then also the side which faces the altar.
+      rotation += ((Math.PI * 2) / 6) * 3;
+
       this.vertical = new PillarVertical(x, z, rotation);
       addPoints(this.vertical);
 
@@ -286,8 +293,6 @@ public class Model extends LXModel {
     public final static int RADIUS = 6 * CENTIMETER;
 
     Head(int x, int y, int z, double rotation) {
-      rotation += (Math.PI * 2) / 6;
-
       for (CirclePoint point : circlePoints(RADIUS, Pillar.FACES, rotation)) {
         addPoint(
           new LXPoint(
