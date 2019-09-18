@@ -11,7 +11,7 @@ import heronarts.lx.audio.LXAudioOutput;
 
 @LXCategory("Form")
 public class FinalOnPattern extends LXPattern {
-  private final static String AUDIO_FILE = "final-test.wav";
+  private final static String AUDIO_FILE = "final.wav";
 
   public final CompoundParameter speed =
     new CompoundParameter("Speed", 5000, 10000, 200)
