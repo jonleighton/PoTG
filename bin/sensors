@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require_relative "../sensors/main"
+require_relative "../sensors/gpio"
+
+GPIO.new(PILLAR_CIRCLE).run

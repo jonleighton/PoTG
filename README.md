@@ -4,7 +4,7 @@
 
 This will compile the code when it runs.
 
-    $ bin/ui
+    $ bin/lights-ui
 
 ## Running headless
 
@@ -14,7 +14,7 @@ You have to compile the code separately:
 
 Then run it:
 
-    $ bin/headless
+    $ bin/lights-headless
 
 ## Controlling the show
 
