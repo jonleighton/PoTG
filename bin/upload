@@ -13,7 +13,7 @@ mkdir -p "$OUTPUT"
 mkdir -p "$OUTPUT/lights/output"
 
 cp "lights/output/Headless.jar" "$OUTPUT/lights/output"
-cp "lights/test.lxp" lights/*.wav "$OUTPUT/lights"
+cp "lights/test.lxp" "lights/lights.service" lights/*.wav "$OUTPUT/lights"
 cp -r "bin/" "$OUTPUT"
 cp -r "sensors/" "$OUTPUT"
 

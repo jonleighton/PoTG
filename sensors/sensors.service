@@ -1,0 +1,23 @@
+# Install this to /lib/systemd/system/sensors.service, then:
+#
+#   $ sudo chmod 644 /lib/systemd/system/sensors.service
+#   $ sudo systemctl daemon-reload
+#   $ sudo systemctl enable sensors.service
+#   $ sudo systemctl start sensors.service
+#
+# To see the logs:
+#
+#   $ sudo journalctl -f -u sensors.service
+
+[Unit]
+Description=PoTG Sensors
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/potg/bin/sensors
+User=pi
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

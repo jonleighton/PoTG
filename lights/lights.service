@@ -1,0 +1,23 @@
+# Install this to /lib/systemd/system/lights.service, then:
+#
+#   $ sudo chmod 644 /lib/systemd/system/lights.service
+#   $ sudo systemctl daemon-reload
+#   $ sudo systemctl enable lights.service
+#   $ sudo systemctl start lights.service
+#
+# To see the logs:
+#
+#   $ sudo journalctl -f -u lights.service
+
+[Unit]
+Description=PoTG Lights
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/potg/bin/lights-headless
+User=pi
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
