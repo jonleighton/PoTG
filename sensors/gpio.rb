@@ -26,6 +26,13 @@ class GPIO
 
   LOOP_DELAY = 0.050 # 50ms
 
+  # Require this number of consecutive identical readings to consider it an
+  # accurate reading.
+  CONSECUTIVE_READINGS = 3
+
+  ALL_HIGH_READINGS = CONSECUTIVE_READINGS.times.map { :high }
+  ALL_LOW_READINGS = CONSECUTIVE_READINGS.times.map { :low }
+
   attr_reader :pillar_circle
 
   def initialize(pillar_circle)
@@ -34,6 +41,8 @@ class GPIO
     require "rpi_gpio"
 
     @pillar_circle = pillar_circle
+
+    @readings = PILLAR_PINS.map { [] }
 
     @gpio = RPi::GPIO
     @gpio.set_numbering :bcm
@@ -53,13 +62,28 @@ class GPIO
 
   def process_sensors
     PILLAR_PINS.each.with_index do |pin, index|
-      if @gpio.high?(pin)
+      pillar_readings = @readings[index]
+
+      pillar_readings.unshift(reading_for(pin))
+      pillar_readings.slice!(CONSECUTIVE_READINGS, pillar_readings.length)
+
+      next unless pillar_readings.length == CONSECUTIVE_READINGS
+
+      if pillar_readings == ALL_HIGH_READINGS
         @pillar_circle.process_sensor_on(index)
-      elsif @gpio.low?(pin)
+      elsif pillar_readings == ALL_LOW_READINGS
         @pillar_circle.process_sensor_off(index)
-      else
-        # Ignore floating input
       end
+    end
+  end
+
+  def reading_for(pin)
+    if @gpio.high?(pin)
+      :high
+    elsif @gpio.low?(pin)
+      :low
+    else
+      :floating
     end
   end
 end
