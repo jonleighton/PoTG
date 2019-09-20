@@ -1,7 +1,23 @@
 class Pillar
-  class DormantState
+  class State
+    attr_reader :pillar
+
+    def initialize(pillar)
+      @pillar = pillar
+    end
+
+    def circle
+      pillar.circle
+    end
+  end
+
+  class DormantState < State
     def process_sensor_on
-      ActiveState.new
+      if circle.normal?
+        ActiveState.new(pillar)
+      else
+        self
+      end
     end
 
     def process_sensor_off
@@ -13,13 +29,17 @@ class Pillar
     end
   end
 
-  class ActiveState
+  class ActiveState < State
     def process_sensor_on
       self
     end
 
     def process_sensor_off
-      DormantState.new
+      if circle.final?
+        DormantState.new(pillar)
+      else
+        self
+      end
     end
 
     def to_sym
@@ -27,11 +47,12 @@ class Pillar
     end
   end
 
-  attr_reader :state, :index
+  attr_reader :circle, :state, :index
 
-  def initialize(index)
+  def initialize(circle, index)
+    @circle = circle
     @index = index
-    @state = DormantState.new
+    @state = DormantState.new(self)
     @listeners = []
   end
 

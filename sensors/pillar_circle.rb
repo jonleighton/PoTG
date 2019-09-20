@@ -27,7 +27,7 @@ class PillarCircle
 
   def initialize
     @state = NormalState.new
-    @pillars = PILLAR_COUNT.times.map { |i| Pillar.new(i) }
+    @pillars = PILLAR_COUNT.times.map { |i| Pillar.new(self, i) }
     @listeners = []
   end
 
@@ -49,6 +49,14 @@ class PillarCircle
   def process_sensor_off(index)
     pillar(index).process_sensor_off
     update_state
+  end
+
+  def normal?
+    state.is_a? NormalState
+  end
+
+  def final?
+    state.is_a? FinalState
   end
 
   private

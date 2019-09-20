@@ -7,9 +7,34 @@ class PillarCircleTest < Minitest::Test
   end
 
   def test_pillar_toggling
-    assert_instance_of Pillar::DormantState, @pillar_circle.pillar(0).state
+    pillar = @pillar_circle.pillar(0)
+    assert_instance_of Pillar::DormantState, pillar.state
+
     @pillar_circle.process_sensor_on(0)
-    assert_instance_of Pillar::ActiveState, @pillar_circle.pillar(0).state
+    assert_instance_of Pillar::ActiveState, pillar.state
+
+    # This shouldn't now allow the pillar to be de-activated until the final
+    # state of the pillar circle has been reached.
+    @pillar_circle.process_sensor_off(0)
+    assert_instance_of Pillar::ActiveState, pillar.state
+
+    PillarCircle::PILLAR_COUNT.times.each { |i| @pillar_circle.process_sensor_on(i) }
+    assert_instance_of PillarCircle::FinalState, @pillar_circle.state
+
+    @pillar_circle.process_sensor_off(0)
+    assert_instance_of Pillar::DormantState, pillar.state
+
+    # This shouldn't now allow the pillar to be re-activated until the normal
+    # state of the pillar circle has been reached.
+    @pillar_circle.process_sensor_on(0)
+    assert_instance_of Pillar::DormantState, pillar.state
+
+    PillarCircle::PILLAR_COUNT.times.each { |i| @pillar_circle.process_sensor_off(i) }
+    assert_instance_of PillarCircle::NormalState, @pillar_circle.state
+
+    # Now we can go again
+    @pillar_circle.process_sensor_on(0)
+    assert_instance_of Pillar::ActiveState, pillar.state
   end
 
   def test_circle_state_transitions
