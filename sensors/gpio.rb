@@ -22,13 +22,27 @@
 
 class GPIO
   # BCM pin numbers
-  PILLAR_PINS = [20, 21, 4, 17, 27, 22, 10, 9, 11, 0]
+  #
+  # Pillars 3 and 10 aren't mapped to where you would think as the P3 and P10
+  # ports on the board weren't working properly.
+  PILLAR_PINS = [
+    20, # Pillar 1  - P1 on board
+    21, # Pillar 2  - P2 on board
+    23, # Pillar 3  - A4 on board (different!)
+    17, # Pillar 4  - P4 on board
+    27, # Pillar 5  - P5 on board
+    22, # Pillar 6  - P6 on board
+    10, # Pillar 7  - P7 on board
+    9,  # Pillar 8  - P8 on board
+    11, # Pillar 9  - P9 on board
+    12  # Pillar 10 - A10 on board (different!)
+  ]
 
   LOOP_DELAY = 0.050 # 50ms
 
   # Require this number of consecutive identical readings to consider it an
   # accurate reading.
-  CONSECUTIVE_READINGS = 3
+  CONSECUTIVE_READINGS = 2
 
   ALL_HIGH_READINGS = CONSECUTIVE_READINGS.times.map { :high }
   ALL_LOW_READINGS = CONSECUTIVE_READINGS.times.map { :low }

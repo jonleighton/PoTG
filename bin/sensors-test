@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require_relative "../sensors/main"
+
+gpio = GPIO.new(PILLAR_CIRCLE)
+
+loop do
+  readings = GPIO::PILLAR_PINS.map { |pin| gpio.reading_for(pin) }
+  p readings
+  sleep GPIO::LOOP_DELAY
+end
