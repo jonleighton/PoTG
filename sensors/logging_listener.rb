@@ -18,7 +18,7 @@ class LoggingListener
     when Pillar
       "Pillar #{entity.number}"
     else
-      raise Argument Error, "Unknown entity #{entity.inspect}"
+      raise ArgumentError, "Unknown entity #{entity.inspect}"
     end
   end
 end
