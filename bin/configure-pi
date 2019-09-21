@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+sudo cp config/config.txt /boot/config.txt
+
 cd "$(dirname "$0")/.."
 
 for service in $(cd config/ && ls *.service); do
