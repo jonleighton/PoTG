@@ -83,9 +83,22 @@ class Output extends LXDatagramOutput {
     addFixture(altar.middleFixture());
   }
 
-  void addFixture(Model.AltarHeads heads) {
+  void addFixture(Model.AltarHeads headFixture) {
     ArrayList<Integer> indices = new ArrayList<Integer>();
-    appendIndices(indices, heads);
+
+    // We need to map these in the reverse order that they're in when you're
+    // looking down at the altar, because when the altar lid is flipped
+    // upside-down to place the LED triangles, an anti-clockwise direction
+    // results in a clockwise direction once the lid is flipped back over. I
+    // could have solved this by doing the wiring differently, but I didn't
+    // realise it at the time.
+    ArrayList<Model.Head> heads = new ArrayList<Model.Head>(Arrays.asList(headFixture.heads));
+    Collections.reverse(heads);
+
+    for (Model.Head head : heads) {
+      appendIndices(indices, head);
+    }
+
     mapOutput(ALTAR_HEADS_OUTPUT, indices);
   }
 
