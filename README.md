@@ -39,3 +39,19 @@ To turn a head on:
 To turn a head off:
 
     $ bin/command head PILLAR off
+
+## Configuring the Pi
+
+There are various config files in `config/`. To install:
+
+1. Copy them to the Pi with `bin/upload`
+2. Run `bin/install-configs`
+
+This installs several systemd services. To enable and start them:
+
+    $ sudo systemctl enable lights.service sensors.service pulseaudio.service
+    $ sudo systemctl start lights.service sensors.service pulseaudio.service
+
+To see logs:
+
+    $ sudo journalctl -f -u lights.service -u sensors.service

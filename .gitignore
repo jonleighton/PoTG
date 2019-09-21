@@ -8,4 +8,5 @@ application.macosx
 .lxproject
 /pi
 /lights/output
-*.wav
+/sounds/*
+!/sounds/.gitkeep

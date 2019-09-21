@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 cd "$(dirname "$0")/.."
 
 OUTPUT="pi/"
@@ -11,10 +13,12 @@ rm -rf "$OUTPUT"
 mkdir -p "$OUTPUT"
 
 mkdir -p "$OUTPUT/lights/output"
-
 cp "lights/output/Headless.jar" "$OUTPUT/lights/output"
-cp "lights/test.lxp" "lights/lights.service" lights/*.wav "$OUTPUT/lights"
+cp "lights/test.lxp" "$OUTPUT/lights"
+
 cp -r "bin/" "$OUTPUT"
 cp -r "sensors/" "$OUTPUT"
+cp -r "config/" "$OUTPUT"
+cp -r "sounds/" "$OUTPUT"
 
-rsync -r --delete "$OUTPUT"/* "pi@$PI_HOST:potg/"
+rsync -r --delete "$OUTPUT"/* "pi@$PI_HOST:~"

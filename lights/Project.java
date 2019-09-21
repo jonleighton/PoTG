@@ -10,7 +10,6 @@ import heronarts.lx.blend.LXBlend;
 import heronarts.lx.blend.MultiplyBlend;
 import heronarts.lx.blend.NormalBlend;
 import heronarts.lx.pattern.GradientPattern;
-import heronarts.lx.audio.LXAudioEngine;
 import heronarts.lx.audio.BandGate;
 import heronarts.lx.parameter.LXCompoundModulation;
 import heronarts.lx.color.LXPalette;
@@ -99,7 +98,7 @@ public class Project {
     buildFinalPatternChannel();
     buildFinalOverlayChannel();
 
-    engine.audio.mode.setValue(LXAudioEngine.Mode.OUTPUT);
+    // We'll sample audio from the sound card
     engine.audio.enabled.setValue(true);
   }
 

@@ -1,0 +1,13 @@
+[Unit]
+Description=PoTG Lights
+After=multi-user.target
+Requires=pulseaudio.service
+
+[Service]
+Type=simple
+ExecStart=/home/pi/bin/lights-headless
+User=pi
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

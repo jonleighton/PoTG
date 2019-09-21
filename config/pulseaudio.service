@@ -1,0 +1,10 @@
+[Unit]
+Description=PulseAudio system-wide server
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/pulseaudio --system --realtime --disallow-exit
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

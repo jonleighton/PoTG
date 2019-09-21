@@ -8,14 +8,11 @@ import heronarts.lx.modulator.LXModulator;
 import heronarts.lx.modulator.LXPeriodicModulator;
 import heronarts.lx.modulator.QuadraticEnvelope;
 import heronarts.lx.modulator.LinearEnvelope;
-import heronarts.lx.audio.LXAudioOutput;
 
 import java.util.List;
 
 @LXCategory("Form")
 public class ActivePillarPattern extends PillarPattern {
-  private final static String AUDIO_FILE = "activation.wav";
-
   public final CompoundParameter delay =
     new CompoundParameter("Delay", 1000, 200, 3000)
       .setDescription("Length of time the pillar goes dark before the head lights up");
@@ -74,8 +71,6 @@ public class ActivePillarPattern extends PillarPattern {
         .setLooping(false)
     );
 
-  private final LXAudioOutput audioOutput = lx.engine.audio.output;
-
   public static final int POINTS_PER_VERTICAL = Model.PillarVertical.POINTS_PER_STRIP;
 
   public LXModulator[] verticalPoints;
@@ -110,9 +105,6 @@ public class ActivePillarPattern extends PillarPattern {
   public void run(double deltaMs) {
     if (headTrigger.finished()) {
       headIntensity.trigger();
-
-      audioOutput.file.setValue(AUDIO_FILE);
-      audioOutput.trigger.setValue(true);
     }
 
     if (verticalTrigger.finished()) {

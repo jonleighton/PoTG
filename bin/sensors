@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-ENV["POTG_LIGHTS_CONTROL"] ||= "/home/pi/potg/bin/lights-control"
+ENV["POTG_LIGHTS_CONTROL"] ||= "/home/pi/bin/lights-control"
 
 require_relative "../sensors/main"
 GPIO.new(PILLAR_CIRCLE).run

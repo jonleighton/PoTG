@@ -3,15 +3,23 @@
 import time
 import argparse
 import sys
+import subprocess
+import os
 from pythonosc import udp_client
 
 PILLAR_COUNT = 10
+SOUNDS_DIR = os.path.realpath(os.path.dirname(os.path.realpath(__file__)) + "/../sounds")
 
 client = udp_client.SimpleUDPClient("127.0.0.1", 3030)
 
 def send_message(path, value):
-    # sys.stderr.write(f'{path} {value}\n')
     client.send_message(path, value)
+
+def play(file, wait=True):
+    if wait:
+        subprocess.run(["paplay", f"{SOUNDS_DIR}/{file}"])
+    else:
+        subprocess.Popen(["paplay", f"{SOUNDS_DIR}/{file}"])
 
 def send_pillar_message(pillar, path, value):
     if pillar == None:
@@ -22,6 +30,7 @@ def send_pillar_message(pillar, path, value):
 
 def activate(args):
     send_pillar_message(args.pillar, "/activePattern", 1)
+    play("activation.wav", wait=False)
 
 def deactivate(args):
     send_pillar_message(args.pillar, "/activePattern", 0)
@@ -31,6 +40,9 @@ def head(args):
 
 def final(args):
     send_message('/lx/channel/Final/activePattern', 1)
+    time.sleep(3)
+    play("final.wav")
+    send_message('/lx/channel/Final/activePattern', 0)
 
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers()

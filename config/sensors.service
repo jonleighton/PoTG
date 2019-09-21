@@ -1,0 +1,12 @@
+[Unit]
+Description=PoTG Sensors
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/bin/sensors
+User=pi
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

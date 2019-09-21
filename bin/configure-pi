@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+for service in $(cd config/ && ls *.service); do
+  sudo cp "config/$service" "/lib/systemd/system/$service"
+  sudo chmod 644 "/lib/systemd/system/$service"
+done
+
+sudo systemctl daemon-reload
+
+sudo systemctl enable pulseaudio.service
+sudo systemctl start pulseaudio.service
+
+# So we can use the system-wide PulseAudio daemon
+sudo usermod -a -G pulse-access pi
+
+sudo cp config/pulse-client.conf /etc/pulse/client.conf
+
+# This ensures that LX uses the monitor of the output (i.e. whatever sound
+# we're playing) as its input (so we can make the light react to the music)
+pactl set-default-source alsa_output.usb-GeneralPlus_USB_Audio_Device-00.analog-stereo.monitor
