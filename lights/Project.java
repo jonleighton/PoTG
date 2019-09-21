@@ -90,7 +90,6 @@ public class Project {
 
     lx.palette.hueMode.setValue(LXPalette.Mode.CYCLE);
     lx.palette.period.setValue(10 * SECONDS);
-    lx.palette.color.saturation.setValue(75);
 
     buildPillarChannels();
     buildNormalTextureChannel();
