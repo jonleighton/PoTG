@@ -3,6 +3,7 @@
 set -euo pipefail
 
 sudo cp config/config.txt /boot/config.txt
+sudo cp config/dhcpcd.conf /boot/dhcpcd.conf
 
 cd "$(dirname "$0")/.."
 
