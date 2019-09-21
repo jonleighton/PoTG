@@ -2,10 +2,14 @@
 
 set -euo pipefail
 
+cd "$(dirname "$0")/.."
+
+### GENERAL CONFIGS ###
+
 sudo cp config/config.txt /boot/config.txt
 sudo cp config/dhcpcd.conf /boot/dhcpcd.conf
 
-cd "$(dirname "$0")/.."
+### SERVICES ###
 
 for service in $(cd config/ && ls *.service); do
   sudo cp "config/$service" "/lib/systemd/system/$service"
@@ -13,6 +17,8 @@ for service in $(cd config/ && ls *.service); do
 done
 
 sudo systemctl daemon-reload
+
+### PULSE AUDIO ###
 
 sudo systemctl enable pulseaudio.service
 sudo systemctl start pulseaudio.service
@@ -25,3 +31,7 @@ sudo cp config/pulse-client.conf /etc/pulse/client.conf
 # This ensures that LX uses the monitor of the output (i.e. whatever sound
 # we're playing) as its input (so we can make the light react to the music)
 pactl set-default-source alsa_output.usb-GeneralPlus_USB_Audio_Device-00.analog-stereo.monitor
+
+### CRON ###
+
+sudo crontab config/crontab
