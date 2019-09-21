@@ -95,9 +95,9 @@ public class Project {
     buildNormalTextureChannel();
 
     buildFinalChannel();
-    buildFinalColorChannel();
     buildFinalPatternChannel();
-    buildFinalOverlayChannel();
+    buildFinalColorChannel();
+    buildFinalOverlayChannels();
 
     // We'll sample audio from the sound card
     engine.audio.enabled.setValue(true);
@@ -237,26 +237,31 @@ public class Project {
     setBlend(channel, MultiplyBlend.class);
   }
 
-  private void buildFinalOverlayChannel() {
+  private void buildFinalOverlayChannels() {
+    BandGate bandGate = new BandGate(lx);
+    bandGate.threshold.setValue(0.16);
+    bandGate.floor.setValue(1.0);
+    bandGate.running.setValue(true);
+    bandGate.maxFreq.setValue(16 * KILOHERTZ);
+    bandGate.minFreq.setValue(5.33 * KILOHERTZ);
+
+    engine.modulation.addModulator(bandGate);
+
     ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
 
-    patterns.add(new FinalOverlayPattern(lx));
+    patterns.add(new HeadsAndMiddlePattern(lx, bandGate));
+
+    CrescendoPattern crescendo = new CrescendoPattern(lx, bandGate);
+    crescendo.speed.setValue(500);
+    crescendo.size.setValue(0.3);
+    patterns.add(crescendo);
 
     LXChannel channel = addChannel(patterns);
 
     channel.label.setValue("Overlay");
     channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
 
-    BandGate beatDetector = new BandGate(lx);
-    beatDetector.threshold.setValue(0.16);
-    beatDetector.floor.setValue(1.0);
-    beatDetector.running.setValue(true);
-    beatDetector.maxFreq.setValue(16 * KILOHERTZ);
-    beatDetector.minFreq.setValue(5.33 * KILOHERTZ);
-
-    engine.modulation.addModulator(beatDetector);
-
-    LXCompoundModulation modulation = new LXCompoundModulation(beatDetector, channel.fader);
+    LXCompoundModulation modulation = new LXCompoundModulation(bandGate, channel.fader);
     modulation.range.setValue(1);
     modulation.enabled.setValue(true);
 

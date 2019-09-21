@@ -14,7 +14,7 @@ public class PatternScanner extends LXPattern {
   }
 
   public final CompoundParameter speed = (CompoundParameter)
-    new CompoundParameter("Speed", .5, -1, 1)
+    new CompoundParameter("Speed", .5, -5, 5)
     .setPolarity(LXParameter.Polarity.BIPOLAR)
     .setDescription("Speed that the plane moves at");
 

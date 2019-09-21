@@ -17,9 +17,9 @@ def send_message(path, value):
 
 def play(file, wait=True):
     if wait:
-        subprocess.run(["paplay", f"{SOUNDS_DIR}/{file}"])
+        return subprocess.run(["paplay", f"{SOUNDS_DIR}/{file}"])
     else:
-        subprocess.Popen(["paplay", f"{SOUNDS_DIR}/{file}"])
+        return subprocess.Popen(["paplay", f"{SOUNDS_DIR}/{file}"])
 
 def send_pillar_message(pillar, path, value):
     if pillar == None:
@@ -41,8 +41,12 @@ def head(args):
 def final(args):
     send_message('/lx/channel/Final/activePattern', 1)
     time.sleep(3)
-    play("final.wav")
+    subprocess = play("final.wav", wait=False)
+    time.sleep(89)
+    send_message('/lx/channel/Overlay/activePattern', 1)
+    subprocess.wait()
     send_message('/lx/channel/Final/activePattern', 0)
+    send_message('/lx/channel/Overlay/activePattern', 0)
 
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers()
