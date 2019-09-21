@@ -91,6 +91,7 @@ public class Project {
     lx.palette.period.setValue(10 * SECONDS);
 
     buildPillarChannels();
+    buildMiddleChannel();
     buildNormalTextureChannel();
 
     buildFinalChannel();
@@ -117,6 +118,20 @@ public class Project {
       channel.transitionTimeSecs.setValue(0.5);
       channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.A);
     }
+  }
+
+  private void buildMiddleChannel() {
+    ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
+
+    ModelPartsPattern parts = new ModelPartsPattern(lx, false);
+    parts.middle.setValue(true);
+    patterns.add(parts);
+
+    LXChannel channel = addChannel(patterns);
+
+    channel.label.setValue("Middle");
+    channel.fader.setValue(1);
+    channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.A);
   }
 
   private void buildNormalTextureChannel() {

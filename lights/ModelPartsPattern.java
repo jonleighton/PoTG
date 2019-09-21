@@ -92,20 +92,28 @@ public class ModelPartsPattern extends LXPattern {
   private Model model;
   private ArrayList<AbstractFixtureParameter> toggles = new ArrayList<AbstractFixtureParameter>();
 
-  public ModelPartsPattern(LX lx) {
+  public FixtureParameter middle;
+
+  public ModelPartsPattern(LX lx, boolean defaultState) {
     super(lx);
     this.model = (Model) lx.model;
 
     for (Model.Pillar pillar : this.model.getPillars()) {
-      addToggle(new PillarVerticalParameter(this.model, pillar));
-      addToggle(new PillarHeadParameter(this.model, pillar));
-      addToggle(new AltarHeadParameter(this.model, pillar));
+      addToggle(new PillarVerticalParameter(this.model, pillar), defaultState);
+      addToggle(new PillarHeadParameter(this.model, pillar), defaultState);
+      addToggle(new AltarHeadParameter(this.model, pillar), defaultState);
     }
 
-    addToggle(new FixtureParameter("AltMid", "altarMiddle", this.model.getAltar().middleFixture()));
+    this.middle = new FixtureParameter("AltMid", "altarMiddle", this.model.getAltar().middleFixture());
+    addToggle(middle, defaultState);
   }
 
-  public void addToggle(AbstractFixtureParameter parameter) {
+  public ModelPartsPattern(LX lx) {
+    this(lx, true);
+  }
+
+  public void addToggle(AbstractFixtureParameter parameter, boolean defaultState) {
+    parameter.setValue(defaultState);
     toggles.add(parameter);
     addParameter(parameter.getPath(), parameter);
   }
