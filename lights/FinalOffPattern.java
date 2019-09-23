@@ -34,5 +34,8 @@ public class FinalOffPattern extends LXPattern {
     if (crossfader.isRunning()) {
       lx.engine.crossfader.setValue(crossfader.getValue());
     }
+
+    // This pattern is used with a subtract blend, so this turns everything off
+    setColors(LXColor.WHITE);
   }
 }

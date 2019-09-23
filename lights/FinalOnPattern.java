@@ -51,7 +51,8 @@ public class FinalOnPattern extends LXPattern {
       lx.engine.crossfader.setValue(crossfader.getValue());
     }
 
-    setColors(LXColor.gray(intensity.getValue()));
-    setColor(((Model) model).getAltarHeads(), LXColor.BLACK);
+    // This pattern is used with a subtract blend, so this is inverted
+    setColors(LXColor.gray(1 - intensity.getValue()));
+    setColor(((Model) model).getAltarHeads(), LXColor.WHITE);
   }
 }

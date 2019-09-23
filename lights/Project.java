@@ -9,6 +9,7 @@ import heronarts.lx.effect.StrobeEffect;
 import heronarts.lx.blend.LXBlend;
 import heronarts.lx.blend.MultiplyBlend;
 import heronarts.lx.blend.NormalBlend;
+import heronarts.lx.blend.SubtractBlend;
 import heronarts.lx.pattern.GradientPattern;
 import heronarts.lx.audio.BandGate;
 import heronarts.lx.parameter.LXCompoundModulation;
@@ -94,10 +95,11 @@ public class Project {
     buildMiddleChannel();
     buildNormalTextureChannel();
 
-    buildFinalChannel();
     buildFinalPatternChannel();
+    buildFinalMiddleChannel();
     buildFinalColorChannel();
     buildFinalOverlayChannels();
+    buildFinalChannel();
 
     // We'll sample audio from the sound card
     engine.audio.enabled.setValue(true);
@@ -154,54 +156,6 @@ public class Project {
     setBlend(channel, MultiplyBlend.class);
   }
 
-  private void buildFinalChannel() {
-    ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
-
-    patterns.add(new FinalOffPattern(lx));
-    patterns.add(new FinalOnPattern(lx));
-
-    LXChannel channel = addChannel(patterns);
-
-    channel.label.setValue("Final");
-    channel.fader.setValue(1);
-    channel.transitionEnabled.setValue(true);
-    channel.transitionTimeSecs.setValue(10);
-    channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
-  }
-
-  private void buildFinalColorChannel() {
-    ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
-
-    ColorLighthouse lighthouse = new ColorLighthouse(lx);
-    lighthouse.speed.setValue(7910);
-    lighthouse.spread.setValue(180);
-    lighthouse.slope.setValue(1);
-    patterns.add(lighthouse);
-
-    ColorRain rain = new ColorRain(lx);
-    rain.speed.setValue(1.25);
-    rain.range.setValue(50);
-    patterns.add(rain);
-
-    ColorSwirl swirl = new ColorSwirl(lx);
-    swirl.speed.setValue(1);
-    swirl.slope.setValue(1.5);
-    patterns.add(swirl);
-
-    LXChannel channel = addChannel(patterns);
-
-    channel.label.setValue("Color");
-    channel.fader.setValue(1);
-    channel.transitionEnabled.setValue(true);
-    channel.transitionTimeSecs.setValue(5);
-    channel.autoCycleEnabled.setValue(true);
-    channel.autoCycleMode.setValue(LXChannel.AutoCycleMode.RANDOM);
-    channel.autoCycleTimeSecs.setValue(10);
-    channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
-
-    setBlend(channel, MultiplyBlend.class);
-  }
-
   private void buildFinalPatternChannel() {
     ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
 
@@ -232,6 +186,53 @@ public class Project {
     channel.autoCycleEnabled.setValue(true);
     channel.autoCycleMode.setValue(LXChannel.AutoCycleMode.RANDOM);
     channel.autoCycleTimeSecs.setValue(8);
+    channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
+  }
+
+  private void buildFinalMiddleChannel() {
+    ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
+
+    EmanatingMiddlePattern middle = new EmanatingMiddlePattern(lx);
+    middle.speed.setValue(1786);
+    patterns.add(middle);
+
+    LXChannel channel = addChannel(patterns);
+
+    channel.label.setValue("Middle");
+    channel.fader.setValue(1);
+    channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
+
+    setBlend(channel, NormalBlend.class);
+  }
+
+  private void buildFinalColorChannel() {
+    ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
+
+    ColorLighthouse lighthouse = new ColorLighthouse(lx);
+    lighthouse.speed.setValue(7910);
+    lighthouse.spread.setValue(180);
+    lighthouse.slope.setValue(1);
+    patterns.add(lighthouse);
+
+    ColorRain rain = new ColorRain(lx);
+    rain.speed.setValue(1.25);
+    rain.range.setValue(50);
+    patterns.add(rain);
+
+    ColorSwirl swirl = new ColorSwirl(lx);
+    swirl.speed.setValue(1);
+    swirl.slope.setValue(1.5);
+    patterns.add(swirl);
+
+    LXChannel channel = addChannel(patterns);
+
+    channel.label.setValue("Color");
+    channel.fader.setValue(1);
+    channel.transitionEnabled.setValue(true);
+    channel.transitionTimeSecs.setValue(5);
+    channel.autoCycleEnabled.setValue(true);
+    channel.autoCycleMode.setValue(LXChannel.AutoCycleMode.RANDOM);
+    channel.autoCycleTimeSecs.setValue(10);
     channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
 
     setBlend(channel, MultiplyBlend.class);
@@ -268,6 +269,23 @@ public class Project {
     modulation.enabled.setValue(true);
 
     engine.modulation.addModulation(modulation);
+  }
+
+  private void buildFinalChannel() {
+    ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
+
+    patterns.add(new FinalOffPattern(lx));
+    patterns.add(new FinalOnPattern(lx));
+
+    LXChannel channel = addChannel(patterns);
+
+    channel.label.setValue("Final");
+    channel.fader.setValue(1);
+    channel.transitionEnabled.setValue(true);
+    channel.transitionTimeSecs.setValue(10);
+    channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
+
+    setBlend(channel, SubtractBlend.class);
   }
 
   private LXChannel addChannel(ArrayList<LXPattern> patterns) {

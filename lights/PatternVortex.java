@@ -11,6 +11,8 @@ import heronarts.lx.modulator.DampedParameter;
 
 import processing.core.PApplet;
 
+import java.util.List;
+
 public class PatternVortex extends LXPattern {
   public String getAuthor() {
     return "Mark C. Slee";
@@ -81,7 +83,7 @@ public class PatternVortex extends LXPattern {
     final float zSlope = this.zSlopeDamped.getValuef();
 
     float dMult = 2 / size;
-    for (LXPoint point : model.getPoints()) {
+    for (LXPoint point : getPoints()) {
       float radix = PApplet.abs((xSlope*PApplet.abs(point.x-model.cx) + ySlope*PApplet.abs(point.y-model.cy) + zSlope*PApplet.abs(point.z-model.cz)));
       float dist = PApplet.dist(point.x, point.y, xPos, yPos);
       //float falloff = 100 / max(20*INCHES, 2*size - .5*dist);
@@ -89,5 +91,9 @@ public class PatternVortex extends LXPattern {
       float b = PApplet.abs(((dist + radix + pos * size) % size) * dMult - 1);
       setColor(point.index, (b > 0) ? LXColor.gray(b*b*100) : LXColor.gray(0));
     }
+  }
+
+  public List<LXPoint> getPoints() {
+    return model.getPoints();
   }
 }
