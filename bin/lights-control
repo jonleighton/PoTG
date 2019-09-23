@@ -42,7 +42,7 @@ def final(args):
     send_message('/lx/channel/Final/activePattern', 1)
     time.sleep(3)
     subprocess = play("final.wav", wait=False)
-    time.sleep(89)
+    time.sleep(75)
     send_message('/lx/channel/Overlay/activePattern', 1)
     subprocess.wait()
     send_message('/lx/channel/Final/activePattern', 0)

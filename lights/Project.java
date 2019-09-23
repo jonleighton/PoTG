@@ -259,6 +259,8 @@ public class Project {
     LXChannel channel = addChannel(patterns);
 
     channel.label.setValue("Overlay");
+    channel.transitionEnabled.setValue(true);
+    channel.transitionTimeSecs.setValue(20);
     channel.crossfadeGroup.setValue(LXChannelBus.CrossfadeGroup.B);
 
     LXCompoundModulation modulation = new LXCompoundModulation(bandGate, channel.fader);
