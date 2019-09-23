@@ -30,7 +30,7 @@ def send_pillar_message(pillar, path, value):
 
 def activate(args):
     send_pillar_message(args.pillar, "/activePattern", 1)
-    play("activation.wav", wait=False)
+    play("activation.wav")
 
 def deactivate(args):
     send_pillar_message(args.pillar, "/activePattern", 0)
