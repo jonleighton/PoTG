@@ -42,7 +42,7 @@ class GPIO
 
   # Require this number of consecutive identical readings to consider it an
   # accurate reading.
-  CONSECUTIVE_READINGS = 2
+  CONSECUTIVE_READINGS = 4
 
   ALL_HIGH_READINGS = CONSECUTIVE_READINGS.times.map { :high }
   ALL_LOW_READINGS = CONSECUTIVE_READINGS.times.map { :low }
