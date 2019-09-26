@@ -58,7 +58,7 @@ public class DormantPillarPattern extends PillarPattern {
   public void run(double deltaMs) {
     if (heartbeat.loop()) maybeActivate();
 
-    setVertical(LXColor.gray(intensity.getValuef()));
+    setPillar(LXColor.gray(intensity.getValuef()));
     setAltarHead(headColor());
   }
 
