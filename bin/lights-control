@@ -30,7 +30,7 @@ def send_pillar_message(pillar, path, value):
 
 def activate(args):
     send_pillar_message(args.pillar, "/activePattern", 1)
-    play("activation.wav")
+    play("activation.wav", wait=False)
 
 def deactivate(args):
     send_pillar_message(args.pillar, "/activePattern", 0)
@@ -39,6 +39,7 @@ def head(args):
     send_pillar_message(args.pillar, "/pattern/active/headActive", args.active == 'on')
 
 def final(args):
+    time.sleep(3) # wait for last pillar to activate
     send_message('/lx/channel/Final/activePattern', 1)
     time.sleep(3)
     subprocess = play("final.wav", wait=False)
