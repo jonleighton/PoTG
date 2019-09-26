@@ -13,9 +13,11 @@ class PillarCircleTest < Minitest::Test
     @pillar_circle.process_sensor_on(0)
     assert_instance_of Pillar::ActiveState, pillar.state
 
-    # This shouldn't now allow the pillar to be de-activated until the final
-    # state of the pillar circle has been reached.
+    # This *should* allow the pillar to be de-activated and then re-activated
     @pillar_circle.process_sensor_off(0)
+    assert_instance_of Pillar::DormantState, pillar.state
+
+    @pillar_circle.process_sensor_on(0)
     assert_instance_of Pillar::ActiveState, pillar.state
 
     PillarCircle::PILLAR_COUNT.times.each { |i| @pillar_circle.process_sensor_on(i) }

@@ -35,11 +35,7 @@ class Pillar
     end
 
     def process_sensor_off
-      if circle.final?
-        DormantState.new(pillar)
-      else
-        self
-      end
+      DormantState.new(pillar)
     end
 
     def to_sym
