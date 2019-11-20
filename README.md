@@ -45,7 +45,7 @@ To turn a head off:
 There are various config files in `config/`. To install:
 
 1. Copy them to the Pi with `bin/upload`
-2. Run `bin/install-configs`
+2. Run `bin/configure-pi`
 
 This installs several systemd services. To enable and start them:
 
