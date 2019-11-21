@@ -1,12 +1,26 @@
 # Pillars of the Guardians
 
-## Running the UI (requires Processing)
+This is the code for controlling an interactive LED art installation which was built for [Burning Seed](http://burningseed.com/) 2019.
 
-This will compile the code when it runs.
+For more technical details, [read this article](https://www.jonathanleighton.com/articles/2019/building-pillars-of-the-guardians/).
+
+## Lights
+
+Lighting is controlled by [LX Studio](https://lx.studio/). The code is in the `lights/` directory.
+
+### Running the UI (requires Processing)
+
+This is used for development. It will compile the code automatically.
 
     $ bin/lights-ui
 
-## Running headless
+Load the `lights/test.lxp` project file to test the lights/wiring.
+
+Load the `lights/static.lxp` project file to run a static light show with no interactivity.
+
+### Running headless
+
+This is used for running on the Pi without a graphical environment.
 
 You have to compile the code separately:
 
@@ -16,29 +30,49 @@ Then run it:
 
     $ bin/lights-headless
 
-## Controlling the show
+### Controlling the lights
 
-External control is done via OSC. There is a Python wrapper script which sends the correct messages to accomplish various tasks:
+The LX Studio project is set up in a very specific way (see `lights/Project.java`). To produce various changes to the light show, there is a Python script at `bin/lights-control`. It sends [OSC](https://en.wikipedia.org/wiki/Open_Sound_Control) messages to LX.
 
-### Activate/deactivate a pillar
+To see usage information:
 
-`PILLAR` is a number from 1 to 10. If omitted, all pillars will be triggered.
+    $ bin/lights-control --help
 
-    $ bin/command {activate,deactivate} PILLAR
+This script also plays sound files which are located in `sounds/`. They are no checked into the git repository, so you need to source them separately.
 
-### Turn the head on or off
+## Sensors
 
-When a pillar is dormant, its altar head is generally lit. When the head is lifted, it should no longer be lit.
+Magnetic sensors are monitored via the Raspberry Pi’s [GPIO](https://www.raspberrypi.org/documentation/usage/gpio/). The code is in the `sensors/` directory and is written in Ruby.
 
-Conversely, when a pillar is active, its pillar head is generally lit. When the head is lifted, it should no longer be lit.
+### Testing sensors
 
-To turn a head on:
+This can only be done on the Pi:
 
-    $ bin/command head PILLAR on
+    $ bin/sensors-test
 
-To turn a head off:
+It will continuously print out which of the sensors are currently firing.
 
-    $ bin/command head PILLAR off
+### Running the sensor monitor
+
+This can only be done on the Pi:
+
+    $ bin/sensors
+
+Logging information is printed to stdout.
+
+### Developing the state logic
+
+You can run the tests for the state management code off-Pi:
+
+    $ ruby sensors/pillar_circle_test.rb
+
+The code in `sensors/lights_listener.rb` is where the sensor code talks to the `bin/lights-control` script, which then talks to LX.
+
+## Uploading to the Pi
+
+When changes have been made, the Pi can be updated like so:
+
+    $ bin/upload [PI_IP_ADDRESS]
 
 ## Configuring the Pi
 
@@ -55,3 +89,5 @@ This installs several systemd services. To enable and start them:
 To see logs:
 
     $ sudo journalctl -f -u lights.service -u sensors.service
+
+The Pi config in this repository is not currently exhaustive. There are some things that were done manually, such as installing dependencies.
