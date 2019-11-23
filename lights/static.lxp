@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1574209130650,
+  "timestamp": 1574471092967,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -15,7 +15,7 @@
       "crossfader": 0.0,
       "crossfaderBlendMode": 0,
       "speed": 1.0,
-      "focusedChannel": 0,
+      "focusedChannel": 1,
       "cueA": false,
       "cueB": false,
       "multithreaded": true,
@@ -45,7 +45,7 @@
         "parameters": {
           "label": "Texture",
           "arm": false,
-          "selected": true,
+          "selected": false,
           "enabled": true,
           "cue": false,
           "fader": 1.0,
@@ -104,7 +104,7 @@
         "parameters": {
           "label": "Pattern",
           "arm": false,
-          "selected": false,
+          "selected": true,
           "enabled": true,
           "cue": false,
           "fader": 1.0,
@@ -121,7 +121,7 @@
         },
         "effects": [],
         "clips": [],
-        "patternIndex": 3,
+        "patternIndex": 0,
         "patterns": [
           {
             "id": 1643,
@@ -129,7 +129,7 @@
             "modulationColor": -16711818,
             "parameters": {
               "label": "PatternScanner",
-              "speed": 0.56,
+              "speed": 0.3600000000000003,
               "sharp": 30.0,
               "xSlope": 1.0,
               "zSlope": 0.0
@@ -147,7 +147,7 @@
             "modulationColor": -16734977,
             "parameters": {
               "label": "PatternStarlight",
-              "speed": 1782.0,
+              "speed": 7176.000000000004,
               "numStars": 5000.0,
               "variance": 0.5
             },
@@ -164,7 +164,7 @@
             "modulationColor": -65448,
             "parameters": {
               "label": "PatternWaves",
-              "rate": 6000.0,
+              "rate": 25055.1080611605,
               "size": 31.7,
               "amp1": 0.5,
               "amp2": 1.4,
@@ -186,13 +186,86 @@
             "modulationColor": -65351,
             "parameters": {
               "label": "PatternVortex",
-              "speed": 2563.0,
+              "speed": 7559.108262220938,
               "size": 120.0,
               "xPos": 0.0,
               "yPos": 70.0,
               "xSlope": 0.2,
               "ySlope": 0.5,
               "zSlope": 0.3
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
+              "triggers": []
+            },
+            "autoCycleEnabled": true
+          }
+        ]
+      },
+      {
+        "id": 2339,
+        "class": "heronarts.lx.LXChannel",
+        "modulationColor": -16736769,
+        "parameters": {
+          "label": "Heads",
+          "arm": false,
+          "selected": false,
+          "enabled": true,
+          "cue": false,
+          "fader": 1.0,
+          "crossfadeGroup": 0,
+          "blendMode": 0,
+          "midiMonitor": false,
+          "midiChannel": 16,
+          "autoCycleEnabled": false,
+          "autoCycleMode": 0,
+          "autoCycleTimeSecs": 60.0,
+          "transitionEnabled": false,
+          "transitionTimeSecs": 5.0,
+          "transitionBlendMode": 0
+        },
+        "effects": [],
+        "clips": [],
+        "patternIndex": 0,
+        "patterns": [
+          {
+            "id": 2351,
+            "class": "ModelPartsPattern",
+            "modulationColor": -16744961,
+            "parameters": {
+              "label": "ModelParts",
+              "pillar/1/vertical": false,
+              "pillar/1/head": true,
+              "pillar/1/altarHead": false,
+              "pillar/2/vertical": false,
+              "pillar/2/head": true,
+              "pillar/2/altarHead": false,
+              "pillar/3/vertical": false,
+              "pillar/3/head": true,
+              "pillar/3/altarHead": false,
+              "pillar/4/vertical": false,
+              "pillar/4/head": true,
+              "pillar/4/altarHead": false,
+              "pillar/5/vertical": false,
+              "pillar/5/head": true,
+              "pillar/5/altarHead": false,
+              "pillar/6/vertical": false,
+              "pillar/6/head": true,
+              "pillar/6/altarHead": false,
+              "pillar/7/vertical": false,
+              "pillar/7/head": true,
+              "pillar/7/altarHead": false,
+              "pillar/8/vertical": false,
+              "pillar/8/head": true,
+              "pillar/8/altarHead": false,
+              "pillar/9/vertical": false,
+              "pillar/9/head": true,
+              "pillar/9/altarHead": false,
+              "pillar/10/vertical": false,
+              "pillar/10/head": true,
+              "pillar/10/altarHead": false,
+              "altarMiddle": false
             },
             "modulation": {
               "modulators": [],
@@ -235,7 +308,7 @@
             "modulationColor": -9371904,
             "parameters": {
               "label": "ColorLighthouse",
-              "speed": 7910.0,
+              "speed": 18830.52583558405,
               "spread": 180.0,
               "slope": 1.0
             },
@@ -252,7 +325,7 @@
             "modulationColor": -16746497,
             "parameters": {
               "label": "ColorRain",
-              "speed": 1.25,
+              "speed": 0.6500000000000005,
               "range": 50.0
             },
             "modulation": {
@@ -268,7 +341,7 @@
             "modulationColor": -65350,
             "parameters": {
               "label": "ColorSwirl",
-              "speed": 1.0,
+              "speed": 0.4799999999999996,
               "slope": 1.5,
               "amount": 3
             },
@@ -432,8 +505,8 @@
         "camera": {
           "active": true,
           "radius": 792.6689998835822,
-          "theta": 11.772000000000064,
-          "phi": 0.2617166738510208,
+          "theta": 11.997000000000066,
+          "phi": 0.3997166738510213,
           "x": 1.5,
           "y": 75.0,
           "z": 0.0
@@ -442,8 +515,8 @@
           {
             "active": false,
             "radius": 792.6689998835822,
-            "theta": 11.772000000000064,
-            "phi": 0.2617166738510208,
+            "theta": 11.997000000000066,
+            "phi": 0.3997166738510213,
             "x": 1.5,
             "y": 75.0,
             "z": 0.0
